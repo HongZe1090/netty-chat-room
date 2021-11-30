@@ -1,0 +1,44 @@
+package com.netty.chatserve.serve;
+
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+/**
+ * @创建人 HongZe
+ * @创建时间 2021/11/30
+ * @描述
+ */
+@Component
+public class WebSocketServe {
+    EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+    EventLoopGroup workGroup = new NioEventLoopGroup();
+
+    @Autowired
+    MyWebSocketChannelHandler myWebSocketChannelHandler;
+
+    public void run(){
+
+        try{
+            ServerBootstrap bootstrap = new ServerBootstrap();
+            bootstrap.group(bossGroup,workGroup);
+            bootstrap.channel(NioServerSocketChannel.class);
+            bootstrap.childHandler(myWebSocketChannelHandler);
+            System.out.println("客户端等待连接....");
+            Channel ch = bootstrap.bind(8888).sync().channel();
+            ch.closeFuture().sync();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+//            优雅的退出程序
+            bossGroup.shutdownGracefully();
+            workGroup.shutdownGracefully();
+        }
+    }
+
+}
