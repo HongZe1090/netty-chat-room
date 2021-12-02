@@ -1,4 +1,4 @@
-package com.netty.chatserve.serve;
+package com.netty.informationServe.serve;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -12,6 +12,8 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,20 +21,24 @@ import java.util.Date;
 /**
  * @创建人 HongZe
  * @创建时间 2021/11/22
- * @描述 接收/处理/响应客户端websocket请求的业务核心处理类  模板设计，子类重写某些类
+ * @描述 接收/处理/响应客户端websocket请求的业务核心处理类  模板设计，子类重写某些类  SimpleChannelInboundHandler是一个模板类
  */
 @Service
 public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private WebSocketServerHandshaker handshaker;
     private static final String WEB_SOCKET_URL = "ws://localhost:8888/websocket";
 
 
 //    服务端处理客户端websocket请求的核心方法
+//    这是模板方法的实现
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
 //        处理客户端向服务端发起http握手请求的业务
         if(msg instanceof FullHttpRequest) {
             handHttpRequest(channelHandlerContext,(FullHttpRequest) msg);
+            logger.info("http 握手成功");
         }else if(msg instanceof WebSocketFrame) {  //处理websocket连接业务
             handWebsocketFrame(channelHandlerContext,(WebSocketFrame) msg);
         }

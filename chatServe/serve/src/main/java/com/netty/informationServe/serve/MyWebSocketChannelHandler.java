@@ -1,4 +1,4 @@
-package com.netty.chatserve.serve;
+package com.netty.informationServe.serve;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * @创建人 HongZe
  * @创建时间 2021/11/30
- * @描述
+ * @描述 责任链机制，handler传入的参数类型必须与继承的父类传入的泛型一致，否则不会被执行；可以借此来选择handler
  */
 @Service
 public class MyWebSocketChannelHandler extends ChannelInitializer<SocketChannel> {
@@ -22,8 +22,8 @@ public class MyWebSocketChannelHandler extends ChannelInitializer<SocketChannel>
     @Override
     protected void initChannel(SocketChannel e) throws Exception {
         e.pipeline().addLast("http-codec", new HttpServerCodec()); //http编解码
-        e.pipeline().addLast("aggregator",new HttpObjectAggregator(65536));
-        e.pipeline().addLast("http-chunked",new ChunkedWriteHandler());
+        e.pipeline().addLast("aggregator",new HttpObjectAggregator(65536)); //httpContent消息聚合
+        e.pipeline().addLast("http-chunked",new ChunkedWriteHandler());  // HttpContent 压缩
         e.pipeline().addLast("handler",myWebSocketHandler);
     }
 }

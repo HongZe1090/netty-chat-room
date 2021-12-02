@@ -1,4 +1,4 @@
-package com.netty.chatserve.serve;
+package com.netty.informationServe.serve;
 
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;

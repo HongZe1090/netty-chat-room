@@ -1,7 +1,8 @@
-package com.netty.chatserve.serve;
+package com.netty.informationServe.serve;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -25,9 +26,11 @@ public class WebSocketServe {
 
         try{
             ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(bossGroup,workGroup);
-            bootstrap.channel(NioServerSocketChannel.class);
-            bootstrap.childHandler(myWebSocketChannelHandler);
+            bootstrap.group(bossGroup,workGroup)
+                     //服务端可连接队列数,对应TCP/IP协议listen函数中backlog参数  还有几个选项没加，需要学习
+                     .option(ChannelOption.SO_BACKLOG, 1024)
+                     .channel(NioServerSocketChannel.class)
+                     .childHandler(myWebSocketChannelHandler);
             System.out.println("客户端等待连接....");
             Channel ch = bootstrap.bind(8888).sync().channel();
             ch.closeFuture().sync();
