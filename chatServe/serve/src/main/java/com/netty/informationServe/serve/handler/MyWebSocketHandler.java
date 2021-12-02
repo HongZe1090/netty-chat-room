@@ -1,5 +1,6 @@
-package com.netty.informationServe.serve;
+package com.netty.informationServe.serve.handler;
 
+import com.netty.informationServe.config.NettyConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;

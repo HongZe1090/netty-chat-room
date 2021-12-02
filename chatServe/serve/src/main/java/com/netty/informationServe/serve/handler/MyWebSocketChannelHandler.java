@@ -1,5 +1,6 @@
-package com.netty.informationServe.serve;
+package com.netty.informationServe.serve.handler;
 
+import com.netty.informationServe.serve.handler.MyWebSocketHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;

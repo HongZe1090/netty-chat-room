@@ -1,4 +1,4 @@
-package com.netty.informationServe.serve;
+package com.netty.informationServe.config;
 
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
