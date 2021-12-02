@@ -1,6 +1,13 @@
 package com.netty.informationServe.serve.handler;
 
+import com.alibaba.fastjson.JSON;
+import com.netty.common.domain.User;
 import com.netty.informationServe.config.NettyConfig;
+import com.netty.informationServe.protocol.Packet;
+import com.netty.informationServe.protocol.packet.CreateGroupPacket;
+import com.netty.informationServe.protocol.packet.GroupMessagePacket;
+import com.netty.informationServe.protocol.packet.RegisterPacket;
+import com.netty.informationServe.protocol.packet.SingleMessagePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -16,8 +23,11 @@ import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import com.alibaba.fastjson.JSONObject;
 
-import java.util.Date;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @创建人 HongZe
@@ -66,14 +76,65 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
             System.out.println("目前我们不支持二进制消息");
             throw new RuntimeException(this.getClass().getName() + ":不支持消息");
         }
+
+        TextWebSocketFrame textWebSocketFrame = (TextWebSocketFrame) frame;
+        ByteBuf bytebuf = textWebSocketFrame.content();
+        String content = bytebuf.toString(Charset.forName("utf-8"));
+        JSONObject jsonObject = JSONObject.parseObject(content);
+
+        System.err.println("请求参数："+jsonObject);
+
+        Byte type = jsonObject.getByte("type");
+        JSONObject parmas = jsonObject.getJSONObject("params");
+        Packet packet = null;
+
+        switch (type) {
+            // 注册user-->channel 映射
+            case 7:
+                RegisterPacket registerRequestPacket = new RegisterPacket();
+                User user =  JSON.parseObject(parmas.toJSONString(), User.class);
+                registerRequestPacket.setUser(user);
+                packet = registerRequestPacket;
+                break;
+            // 单聊
+            case 1:
+                SingleMessagePacket messageRequestPacket = new SingleMessagePacket();
+                messageRequestPacket.setMessage(parmas.getString("message"));
+                messageRequestPacket.setToUserId(parmas.getString("toMessageId"));
+                messageRequestPacket.setFileType(parmas.getString("fileType"));
+                packet = messageRequestPacket;
+                break;
+            // 创建群聊
+            case 3:
+                CreateGroupPacket createGroupRequestPacket = new CreateGroupPacket();
+                String userListStr = parmas.getString("userIdList");
+                List<String> userIdList = Arrays.asList(userListStr.split(","));
+                createGroupRequestPacket.setUserIdList(userIdList);
+                packet = createGroupRequestPacket;
+                break;
+            // 群聊消息
+            case 9:
+                GroupMessagePacket groupMessageRequestPacket = new GroupMessagePacket();
+                groupMessageRequestPacket.setMessage(parmas.getString("message"));
+                groupMessageRequestPacket.setToGroupId(parmas.getString("toMessageId"));
+                groupMessageRequestPacket.setFileType(parmas.getString("fileType"));
+                packet = groupMessageRequestPacket;
+                break;
+            //心跳检测
+            default:
+                break;
+        }
+        ctx.fireChannelRead(packet);
+
+
 //        返回应答消息
 //        获取客户端向服务端发送的消息
-        String request = ((TextWebSocketFrame) frame).text();
-        System.out.println("服务端接收到客户端的消息--->"+request);
-        TextWebSocketFrame tws = new TextWebSocketFrame(new Date().toString() + ctx.channel().id() + "---->" + request);
+//        String request = ((TextWebSocketFrame) frame).text();
+//        System.out.println("服务端接收到客户端的消息--->"+request);
+//        TextWebSocketFrame tws = new TextWebSocketFrame(new Date().toString() + ctx.channel().id() + "---->" + request);
 
 //        群发，服务端向每个链接上来的客户端群发
-        NettyConfig.group.writeAndFlush(tws);
+//        NettyConfig.group.writeAndFlush(tws);
     }
 
 /**
