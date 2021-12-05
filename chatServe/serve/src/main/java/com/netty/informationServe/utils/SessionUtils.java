@@ -20,6 +20,7 @@ public class SessionUtils {
 	
 	public static void bindChannel(User user, Channel channel) {
 		userIdChannelMap.put(user.getUserId(), channel);
+		System.out.println(user.getUserId() + "已经登陆...");
 		channel.attr(Attributes.SESSION).set(user);
 	}
 	

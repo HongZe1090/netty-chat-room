@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,24 +36,15 @@ import java.util.List;
  * @描述 接收/处理/响应客户端websocket请求的业务核心处理类  模板设计，子类重写某些类  SimpleChannelInboundHandler是一个模板类
  */
 @Service
-public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
+public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private WebSocketServerHandshaker handshaker;
-    private static final String WEB_SOCKET_URL = "ws://localhost:8888/websocket";
-
 
 //    服务端处理客户端websocket请求的核心方法
 //    这是模板方法的实现
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
-//        处理客户端向服务端发起http握手请求的业务
-        if(msg instanceof FullHttpRequest) {
-            handHttpRequest(channelHandlerContext,(FullHttpRequest) msg);
-            logger.info("http 握手成功");
-        }else if(msg instanceof WebSocketFrame) {  //处理websocket连接业务
-            handWebsocketFrame(channelHandlerContext,(WebSocketFrame) msg);
-        }
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, WebSocketFrame msg) throws Exception {
+
+            handWebsocketFrame(channelHandlerContext, msg);
 
     }
 
@@ -63,7 +55,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
      */
     private void handWebsocketFrame(ChannelHandlerContext ctx,WebSocketFrame frame){
         if(frame instanceof CloseWebSocketFrame) {
-            handshaker.close(ctx.channel(),((CloseWebSocketFrame) frame).retain());
+            ctx.channel().close();
         }
 
 //        判断是否时ping消息
@@ -71,19 +63,20 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
             ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));
         }
 
-//        判断是否是二进制消息，如果是二进制消息，就抛出异常
-        if(!(frame instanceof TextWebSocketFrame)) {
-            System.out.println("目前我们不支持二进制消息");
-            throw new RuntimeException(this.getClass().getName() + ":不支持消息");
-        }
+////        判断是否是二进制消息，如果是二进制消息，就抛出异常
+//        if(!(frame instanceof BinaryWebSocketFrame)) {
+//            System.out.println("目前我们不支持二进制消息");
+//            throw new RuntimeException(this.getClass().getName() + ":不支持消息");
+//        }
 
         TextWebSocketFrame textWebSocketFrame = (TextWebSocketFrame) frame;
         ByteBuf bytebuf = textWebSocketFrame.content();
+//从content中写入缓冲区
         String content = bytebuf.toString(Charset.forName("utf-8"));
         JSONObject jsonObject = JSONObject.parseObject(content);
-
-        System.err.println("请求参数："+jsonObject);
-
+//将json字符串转变为json对象
+        logger.info(content);
+//从json对象中按属性取值
         Byte type = jsonObject.getByte("type");
         JSONObject parmas = jsonObject.getJSONObject("params");
         Packet packet = null;
@@ -92,6 +85,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
             // 注册user-->channel 映射
             case 7:
                 RegisterPacket registerRequestPacket = new RegisterPacket();
+//                将json对象转换为实体类
                 User user =  JSON.parseObject(parmas.toJSONString(), User.class);
                 registerRequestPacket.setUser(user);
                 packet = registerRequestPacket;
@@ -120,61 +114,23 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
                 groupMessageRequestPacket.setFileType(parmas.getString("fileType"));
                 packet = groupMessageRequestPacket;
                 break;
-            //心跳检测
+            //心跳检测 暂未添加
             default:
                 break;
         }
+
+        //        返回应答消息
+//        获取客户端向服务端发送的消息
+        String request = ((TextWebSocketFrame) frame).text();
+//        System.out.println("服务端接收到客户端的消息--->"+request);
+        TextWebSocketFrame tws = new TextWebSocketFrame(new Date().toString() + ctx.channel().id() + "---->" + request);
+        ctx.writeAndFlush(tws);
+
+
         ctx.fireChannelRead(packet);
 
 
-//        返回应答消息
-//        获取客户端向服务端发送的消息
-//        String request = ((TextWebSocketFrame) frame).text();
-//        System.out.println("服务端接收到客户端的消息--->"+request);
-//        TextWebSocketFrame tws = new TextWebSocketFrame(new Date().toString() + ctx.channel().id() + "---->" + request);
 
-//        群发，服务端向每个链接上来的客户端群发
-//        NettyConfig.group.writeAndFlush(tws);
-    }
-
-/**
-
- *@描述 客户端向服务端发起http握手请求的业务
-
- */
-    private void handHttpRequest(ChannelHandlerContext ctx,FullHttpRequest req) {
-//        如果请求头中不含websocket，就不是握手请求
-        if (!req.getDecoderResult().isSuccess()||!("websocket".equals(req.headers().get("Upgrade")))){
-            sendHttpResponse(ctx,req,new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
-            return;
-        }
-        WebSocketServerHandshakerFactory wxFactory = new WebSocketServerHandshakerFactory(WEB_SOCKET_URL,null,false);
-
-        handshaker = wxFactory.newHandshaker(req);
-        if(handshaker == null) {
-            WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
-        }else {
-            handshaker.handshake(ctx.channel(),req);
-        }
-    }
-
-    /**
-
-     *@描述 服务端向客户端响应消息
-
-     */
-
-    private void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, DefaultFullHttpResponse res) {
-        if(res.getStatus().code()!=200) {
-            ByteBuf buf = Unpooled.copiedBuffer(res.getStatus().toString(), CharsetUtil.UTF_8);
-            res.content().writeBytes(buf);
-            buf.release();
-        }
-//        服务端向客户端发送数据
-        ChannelFuture f = ctx.channel().writeAndFlush(res);
-        if(res.getStatus().code()!=200){
-            f.addListener(ChannelFutureListener.CLOSE);
-        }
     }
 
     //客户端与服务端创建连接

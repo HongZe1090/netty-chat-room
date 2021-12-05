@@ -31,6 +31,7 @@ public class WebSocketServe {
                      //服务端可连接队列数,对应TCP/IP协议listen函数中backlog参数  还有几个选项没加，需要学习
                      .option(ChannelOption.SO_BACKLOG, 1024)
                      .channel(NioServerSocketChannel.class)
+                    //添加日志处理器？或者切面
                      .childHandler(myWebSocketChannelHandler);
             System.out.println("客户端等待连接....");
             Channel ch = bootstrap.bind(8888).sync().channel();
