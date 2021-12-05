@@ -35,8 +35,25 @@
             if(!window.WebSocket){
                 return
             }
+
             if(socket.readyState == WebSocket.OPEN) {
-                socket.send(message);
+                let data = {
+                    type: 7,
+                    params: {
+                            // 用户id
+                            userId:123,
+                            // 用户名
+                            userName:"hhh",
+                            // 密码
+                            password:1234,
+                            // 性别
+                            sex:"nan",
+                            // 头像路径
+                            image:"123465"
+                    }
+                }
+//将json对象转变为json字符串以传输
+                socket.send(JSON.stringify(data));
             }else{
                 alert("websocket连接没有建立成功...")
             }
