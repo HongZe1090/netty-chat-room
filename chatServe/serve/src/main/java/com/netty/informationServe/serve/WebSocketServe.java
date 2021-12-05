@@ -3,6 +3,7 @@ package com.netty.informationServe.serve;
 import com.netty.informationServe.serve.handler.MyWebSocketChannelHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  * @创建时间 2021/11/30
  * @描述
  */
+@ChannelHandler.Sharable
 @Component
 public class WebSocketServe {
     EventLoopGroup bossGroup = new NioEventLoopGroup(1);

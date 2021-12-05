@@ -7,6 +7,7 @@ import com.netty.informationServe.protocol.packet.SingleMessagePacket;
 import com.netty.informationServe.utils.SessionUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -20,6 +21,7 @@ import java.nio.charset.Charset;
  * @描述 私聊消息处理器
  */
 @Service
+@ChannelHandler.Sharable
 public class SingleMessageHandler extends SimpleChannelInboundHandler<SingleMessagePacket> {
 
     @Override

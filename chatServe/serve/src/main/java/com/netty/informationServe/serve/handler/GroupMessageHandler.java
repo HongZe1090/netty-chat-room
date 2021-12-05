@@ -2,6 +2,7 @@ package com.netty.informationServe.serve.handler;
 
 import com.netty.informationServe.protocol.packet.GroupMessagePacket;
 import com.netty.informationServe.protocol.packet.RegisterPacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  * @描述 群组消息处理器
  */
 @Service
+@ChannelHandler.Sharable
 public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessagePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, GroupMessagePacket groupMessagePacket) throws Exception {

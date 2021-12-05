@@ -1,6 +1,7 @@
 package com.netty.informationServe.serve.handler;
 
 import com.netty.informationServe.serve.handler.MyWebSocketHandler;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
  * @描述 责任链机制，handler传入的参数类型必须与继承的父类传入的泛型一致，否则不会被执行；可以借此来选择handler
  */
 @Service
+@ChannelHandler.Sharable
 public class MyWebSocketChannelHandler extends ChannelInitializer<SocketChannel> {
 
     @Autowired

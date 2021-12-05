@@ -3,6 +3,7 @@ package com.netty.informationServe.serve.handler;
 import com.netty.common.domain.User;
 import com.netty.informationServe.protocol.packet.RegisterPacket;
 import com.netty.informationServe.utils.SessionUtils;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * @描述 注册处理器
  */
 @Service
+@ChannelHandler.Sharable
 public class RegisterHandler extends SimpleChannelInboundHandler<RegisterPacket> {
 
     @Override
