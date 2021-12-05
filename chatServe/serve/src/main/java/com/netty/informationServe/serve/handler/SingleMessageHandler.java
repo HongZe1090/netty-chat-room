@@ -38,6 +38,9 @@ public class SingleMessageHandler extends SimpleChannelInboundHandler<SingleMess
         User toUser = SessionUtils.getUser(toUserChannel);
         String fileType = singleMessagePacket.getFileType();
         ByteBuf buf = getByteBuf(channelHandlerContext, message, toUser, fileType);
+
+        System.out.println(singleMessagePacket.getToUserId() + "发送了消息给" + singleMessagePacket.getToUserId() + "：" + singleMessagePacket.getMessage());
+
         toUserChannel.writeAndFlush(new TextWebSocketFrame(buf));
     }
 
