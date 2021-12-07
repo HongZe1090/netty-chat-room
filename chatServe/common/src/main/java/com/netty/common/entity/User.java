@@ -1,11 +1,15 @@
-package com.netty.common.domain;
+package com.netty.common.entity;
+
+import java.io.Serializable;
 
 /**
  * @创建人 HongZe
- * @创建时间 2021/12/2
- * @描述 用户基础信息类
+ * @创建时间 2021/12/7
+ * @描述 实体与数据库对象的对应表
  */
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 478123456;
+
     // 用户id
     private Integer userId;
     // 用户名
@@ -16,6 +20,20 @@ public class User {
     private String sex;
     // 头像路径
     private String image;
+    // 权限
+    private boolean admin;
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getUserId() {
         return userId;

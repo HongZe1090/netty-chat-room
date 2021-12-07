@@ -20,6 +20,8 @@
         <spring.boot.version>2.3.7.RELEASE</spring.boot.version>
         <fastjson.version>1.2.6</fastjson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mysql.version>8.0.25</mysql.version>
+        <mybatis.plus.version>3.4.3.4</mybatis.plus.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -42,6 +44,19 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
+            <!--            jdbc-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

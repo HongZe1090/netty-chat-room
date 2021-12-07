@@ -1,0 +1,32 @@
+# 应用名称
+spring:
+  application:
+    name: AdminServe
+  # 云数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.98.209.26:3306/NettyChat?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Hongkong
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: HiKari
+      max-lifetime: 300000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+      idle-timeout: 30000
+      minimum-idle: 3
+      maximum-pool-size: 20
+
+# 应用服务 WEB 访问端口
+server:
+  port: 8081
+
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    use-column-label: true
+  mapper-locations: classpath:mapper/**Mapper.xml
+#  type-aliases-package: com.reservoir.auth.form,com.reservoir.api.entity

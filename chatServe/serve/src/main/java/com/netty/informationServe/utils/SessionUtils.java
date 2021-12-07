@@ -11,7 +11,7 @@ public class SessionUtils {
 	/**
 	 * userID 映射 连接channel
 	 */
-	private static Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
+	private static Map<Integer, Channel> userIdChannelMap = new ConcurrentHashMap<>();
 	
 	/**
 	 * groupId ---> channelgroup 群聊ID和群聊ChannelGroup映射
