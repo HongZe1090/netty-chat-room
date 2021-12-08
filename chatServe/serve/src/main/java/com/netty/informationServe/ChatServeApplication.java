@@ -1,6 +1,7 @@
 package com.netty.informationServe;
 
 import com.netty.informationServe.serve.WebSocketServe;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,12 +19,17 @@ public class ChatServeApplication implements CommandLineRunner {
     @Autowired
     WebSocketServe serve;
 
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
+
     public static void main(String[] args) {
         SpringApplication.run(ChatServeApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
+        rocketMQTemplate.convertAndSend("NettyInfo","你好,Java旅途" );
+        System.out.println("消息已经发送拉...");
         serve.run();
     }
 }
