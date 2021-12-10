@@ -9,17 +9,17 @@ import com.netty.informationServe.protocol.commond;
  * @描述
  */
 public class SingleMessagePacket extends Packet {
-    private String toUserId;
+    private Integer toUserId;
 
     private String message;
 
     private String fileType;
 
-    public String getToUserId() {
+    public Integer getToUserId() {
         return toUserId;
     }
 
-    public void setToUserId(String toUserId) {
+    public void setToUserId(Integer toUserId) {
         this.toUserId = toUserId;
     }
 

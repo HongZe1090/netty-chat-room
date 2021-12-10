@@ -3,7 +3,7 @@ package com.netty.common.domain;
 /**
  * @创建人 HongZe
  * @创建时间 2021/12/2
- * @描述 用户基础信息类
+ * @描述 用户消息实习类
  */
 public class User {
     // 用户id

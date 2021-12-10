@@ -11,16 +11,17 @@ public class SessionUtils {
 	/**
 	 * userID 映射 连接channel
 	 */
-	private static Map<Integer, Channel> userIdChannelMap = new ConcurrentHashMap<>();
+	public static Map<Integer, Channel> userIdChannelMap = new ConcurrentHashMap<>();
 	
 	/**
 	 * groupId ---> channelgroup 群聊ID和群聊ChannelGroup映射
 	 */
-	private static Map<String, ChannelGroup> groupIdChannelGroupMap = new ConcurrentHashMap<>();
+	private static Map<Integer, ChannelGroup> groupIdChannelGroupMap = new ConcurrentHashMap<>();
 	
 	public static void bindChannel(User user, Channel channel) {
 		userIdChannelMap.put(user.getUserId(), channel);
 		System.out.println(user.getUserId() + "已经登陆...");
+		System.out.println(userIdChannelMap);
 		channel.attr(Attributes.SESSION).set(user);
 	}
 	
@@ -39,7 +40,7 @@ public class SessionUtils {
 		return channel.attr(Attributes.SESSION).get();
 	}
 	
-	public static Channel getChannel(String userId) {
+	public static Channel getChannel(Integer userId) {
 		return userIdChannelMap.get(userId);
 	}
 	/**
@@ -47,7 +48,7 @@ public class SessionUtils {
 	 * @param groupId
 	 * @param channelGroup
 	 */
-	public static void bindChannelGroup(String groupId, ChannelGroup channelGroup) {
+	public static void bindChannelGroup(Integer groupId, ChannelGroup channelGroup) {
 		groupIdChannelGroupMap.put(groupId, channelGroup);
 	}
 

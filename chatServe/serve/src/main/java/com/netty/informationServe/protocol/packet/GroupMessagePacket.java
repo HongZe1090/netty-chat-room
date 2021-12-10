@@ -11,17 +11,17 @@ import java.util.List;
  * @描述 群消息发送
  */
 public class GroupMessagePacket extends Packet {
-    private String toGroupId;
+    private Integer toGroupId;
 
     private String message;
 
     private String fileType;
 
-    public String getToGroupId() {
+    public Integer getToGroupId() {
         return toGroupId;
     }
 
-    public void setToGroupId(String toGroupId) {
+    public void setToGroupId(Integer toGroupId) {
         this.toGroupId = toGroupId;
     }
 

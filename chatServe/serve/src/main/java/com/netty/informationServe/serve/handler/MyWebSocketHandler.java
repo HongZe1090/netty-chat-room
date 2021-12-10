@@ -92,7 +92,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFra
             case 1:
                 SingleMessagePacket messageRequestPacket = new SingleMessagePacket();
                 messageRequestPacket.setMessage(parmas.getString("message"));
-                messageRequestPacket.setToUserId(parmas.getString("toMessageId"));
+                messageRequestPacket.setToUserId(parmas.getInteger("toMessageId"));
                 messageRequestPacket.setFileType(parmas.getString("fileType"));
                 packet = messageRequestPacket;
                 break;
@@ -101,14 +101,14 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFra
                 CreateGroupPacket createGroupRequestPacket = new CreateGroupPacket();
                 String userListStr = parmas.getString("userIdList");
                 List<String> userIdList = Arrays.asList(userListStr.split(","));
-                createGroupRequestPacket.setUserIdList(userIdList);
+//                createGroupRequestPacket.setUserIdList(userIdList);
                 packet = createGroupRequestPacket;
                 break;
             // 群聊消息
             case 9:
                 GroupMessagePacket groupMessageRequestPacket = new GroupMessagePacket();
                 groupMessageRequestPacket.setMessage(parmas.getString("message"));
-                groupMessageRequestPacket.setToGroupId(parmas.getString("toMessageId"));
+                groupMessageRequestPacket.setToGroupId(parmas.getInteger("toMessageId"));
                 groupMessageRequestPacket.setFileType(parmas.getString("fileType"));
                 packet = groupMessageRequestPacket;
                 break;
