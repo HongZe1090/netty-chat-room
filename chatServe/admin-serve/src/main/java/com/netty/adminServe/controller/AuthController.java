@@ -25,8 +25,12 @@ public class AuthController {
     @Autowired
     AuthServiceImpl authService;
 
+    /**
+
+     *@描述 登陆
+
+     */
     @PostMapping("/login")
-//    @ApiOperation("登录授权")
     @Log(title = "auth",businessType = BusinessType.LOGIN,operatorType = OperatorType.USER)
     public Object login(@RequestBody AuthBody authBody) {
         return authService.login(authBody);
