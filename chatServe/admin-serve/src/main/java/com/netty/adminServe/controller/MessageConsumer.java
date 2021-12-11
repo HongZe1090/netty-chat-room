@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
         consumerGroup = "NettyInfo",
         selectorExpression = "*"
 )
-public class MessageConsumer implements RocketMQListener<Message> {
+public class MessageConsumer implements RocketMQListener<Object> {
     @Override
-    public void onMessage(Message message) {
-        System.out.println("received message is {}" + message.getInfoContent());
+    public void onMessage(Object message) {
+        System.out.println("received message is {}" + ((Message) message).getTime());
     }
 }

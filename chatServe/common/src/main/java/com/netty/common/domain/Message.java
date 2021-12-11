@@ -1,7 +1,7 @@
 package com.netty.common.domain;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * @创建人 HongZe

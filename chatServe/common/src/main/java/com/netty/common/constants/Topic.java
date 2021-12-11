@@ -26,4 +26,9 @@ public class Topic {
      */
     public static final String OffLineTopic = "NettyOfflineInfo";
 
+    /**
+     * 日志Topic
+     */
+    public static final String LogTopic = "NettyLog";
+
 }

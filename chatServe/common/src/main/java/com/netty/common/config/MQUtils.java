@@ -1,4 +1,4 @@
-package com.netty.informationServe.utils;
+package com.netty.common.config;
 
 import com.netty.common.domain.Message;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -15,8 +15,8 @@ public class MQUtils {
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
 
-    public void MessageSend(String topic, Message message) {
-        rocketMQTemplate.convertAndSend("NettyInfo",message);
+    public void MessageSend(String topic, Object message) {
+        rocketMQTemplate.convertAndSend(topic,message);
         System.out.println("消息已经发送拉...");
     }
 

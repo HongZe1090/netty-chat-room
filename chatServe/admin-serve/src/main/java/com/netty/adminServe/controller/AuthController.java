@@ -3,6 +3,9 @@ package com.netty.adminServe.controller;
 import com.netty.adminServe.service.AuthService;
 import com.netty.adminServe.service.Impl.AuthServiceImpl;
 import com.netty.common.model.form.AuthBody;
+import com.netty.log.annotation.Log;
+import com.netty.log.constants.BusinessType;
+import com.netty.log.constants.OperatorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/login")
 //    @ApiOperation("登录授权")
-//    @Log(title = "auth",businessType = BusinessType.GRANT,operatorType = OperatorType.OTHER)
+    @Log(title = "auth",businessType = BusinessType.LOGIN,operatorType = OperatorType.USER)
     public Object login(@RequestBody AuthBody authBody) {
         return authService.login(authBody);
     }
