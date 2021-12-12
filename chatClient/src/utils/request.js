@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Notification } from 'element-ui';
 /**
  * get请求
  * @param {*} url 
@@ -59,17 +60,16 @@ export function postUrl(url, paramsObj, token) {
 }
 //请求token用到的
 export function postUrlContentType(url, paramsObj) {
-    console.log(paramsObj) 
+    let that = this
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
             url: url,
             data: paramsObj,
           }).then((res) => {
-              console.log(res);
-            resolve(res)
+            resolve(res.data)
         }).catch((e) => {
-            reject(e)
+            Notification.error('服务器跑出去摘土豆啦...')
         })
     })
 }

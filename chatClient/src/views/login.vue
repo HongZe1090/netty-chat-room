@@ -46,30 +46,39 @@ export default {
             saveUserInfo: 'saveUserInfo'
         }),
         toLogin: function() {
-            let me = this;
+            let that = this
             let loginParam = {
-                userName: me.userName,
-                password: me.password,
+                userName: that.userName,
+                password: that.password,
             }
-            request.postUrlContentType("http://localhost:8081/auth/login", loginParam).then(function(res) {
-                if (res.data) {
+            request.postUrlContentType("http://localhost:8081/auth/login", loginParam).then(function(data) {
+                console.log(data)
+            if(data.code == 200 ){    
+                    that.$notify({
+                    title: '登陆成功',
+                    message: '等你好久啦 Hi~ o(*￣▽￣*)ブ '+data.data.userName,
+                    type: 'success'
+                    })
+            }
+            if(data.code != 200 ) {
+                    that.$alert(data.message, '进不去进不去', {
+                    confirmButtonText: '确定',
+                    })
+                }
                    //再去请求userId
                    let userParams = {
-                        userName: me.userName,
+                        userName: that.userName,
                    }
                    let token = res.data.access_token;
-                   request.postJSON("/wechat/login/getUser", userParams, token).then(function(res) {
-                        // me.saveUserInfo(res.data.obj);
-                        // let params = {
-                        //     userId: res.data.obj.userId
-                        // }
-                        // localStorage.setItem("access_token_"+params.userId, token)
-                        // let encodeUrl = window.encodeURI(JSON.stringify(params));
-                        // me.$router.push('/wechat?urlParams='+encodeUrl)
-                   })
-                } else {
-                    alert("登录失败，密码错误！")
-                }
+                //    request.postJSON("/wechat/login/getUser", userParams, token).then(function(res) {
+                //         me.saveUserInfo(res.data.obj);
+                //         let params = {
+                //             userId: res.data.obj.userId
+                //         }
+                //         localStorage.setItem("access_token_"+params.userId, token)
+                //         let encodeUrl = window.encodeURI(JSON.stringify(params));
+                //         me.$router.push('/wechat?urlParams='+encodeUrl)
+                //    })
             })
         }
     },
