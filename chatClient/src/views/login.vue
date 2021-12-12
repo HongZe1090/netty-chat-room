@@ -59,7 +59,21 @@ export default {
                     message: '等你好久啦 Hi~ o(*￣▽￣*)ブ '+data.data.userName,
                     type: 'success'
                     })
+
+request.postUrl("http://localhost:8081/userFriend/getAllFriends",1).then(function(res) {
+                        // me.saveUserInfo(res.data.obj);
+                        // let params = {
+                        //     userId: res.data.obj.userId
+                        // }
+                        // localStorage.setItem("access_token_"+params.userId, token)
+                        // let encodeUrl = window.encodeURI(JSON.stringify(params));
+                        // me.$router.push('/wechat?urlParams='+encodeUrl)
+                   })
+
                     that.$router.push('/wechat')
+
+                       
+
             }
             if(data.code != 200 ) {
                     that.$alert(data.message, '进不去进不去', {
@@ -71,15 +85,6 @@ export default {
                         userName: that.userName,
                    }
                    let token = res.data.access_token;
-                //    request.postJSON("/wechat/login/getUser", userParams, token).then(function(res) {
-                //         me.saveUserInfo(res.data.obj);
-                //         let params = {
-                //             userId: res.data.obj.userId
-                //         }
-                //         localStorage.setItem("access_token_"+params.userId, token)
-                //         let encodeUrl = window.encodeURI(JSON.stringify(params));
-                //         me.$router.push('/wechat?urlParams='+encodeUrl)
-                //    })
             })
         }
     },

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netty.adminServe.dao.FriendMapper">
+
+    <resultMap type="com.netty.common.model.Result.Friend" id="friendInfo">
+        <id column="friend_id" property="userId"/>
+        <result column="userName" property="userName"/>
+        <result column="sex" property="sex"/>
+        <result column="image" property="image"/>
+        <result column="description" property="discription"/>
+    </resultMap>
+
+    <select id="getUserFriends" resultMap="friendInfo">
+        select friend_id,usr.userName,usr.password,usr.sex,usr.image,usr.description
+        from friend_relation
+            left join User usr on usr.userId = friend_id
+        where ower_id = #{userId}
+    </select>
+
+</mapper>

@@ -22,6 +22,16 @@ public class User implements Serializable {
     private String image;
     // 权限
     private boolean admin;
+    // 描述
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public boolean isAdmin() {
         return admin;

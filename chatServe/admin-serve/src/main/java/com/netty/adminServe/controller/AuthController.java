@@ -29,7 +29,6 @@ public class AuthController {
 
      */
     @PostMapping("/login")
-    @CrossOrigin
     @Log(title = "auth",businessType = BusinessType.LOGIN,operatorType = OperatorType.USER)
     public Object login(@RequestBody AuthBody authBody) {
         System.out.println(authBody.getUserName());

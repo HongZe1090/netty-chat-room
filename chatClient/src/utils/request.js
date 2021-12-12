@@ -41,17 +41,17 @@ export function postJSON(url, paramsObj, token) {
         })
     })
 }
-export function postUrl(url, paramsObj, token) {
+export function postUrl(url, paramsObj) {
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
             url: url,
             params: paramsObj,
-            headers: {
-                "Authorization":'bearer '+ token  //token换成从缓存获取
-            },
-            responseType: 'blob',
+            // headers: {
+            //     "Authorization":'bearer '+ token  //token换成从缓存获取
+            // }
           }).then((res) => {
+              console.log(res)
             resolve(res)
         }).catch((e) => {
             reject(e)

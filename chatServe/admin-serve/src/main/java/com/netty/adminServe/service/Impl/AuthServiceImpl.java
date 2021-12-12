@@ -2,6 +2,7 @@ package com.netty.adminServe.service.Impl;
 
 import com.netty.adminServe.dao.AuthMapper;
 import com.netty.adminServe.handler.TokenHandler;
+import com.netty.adminServe.service.AuthService;
 import com.netty.common.entity.User;
 import com.netty.common.model.base.RestMsg;
 import com.netty.common.model.form.AuthBody;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @描述
  */
 @Service
-public class AuthServiceImpl {
+public class AuthServiceImpl implements AuthService {
     @Autowired
     AuthMapper authMapper;
 
