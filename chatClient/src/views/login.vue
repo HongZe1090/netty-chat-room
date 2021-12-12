@@ -59,6 +59,7 @@ export default {
                     message: '等你好久啦 Hi~ o(*￣▽￣*)ブ '+data.data.userName,
                     type: 'success'
                     })
+                    that.$router.push('/wechat')
             }
             if(data.code != 200 ) {
                     that.$alert(data.message, '进不去进不去', {
