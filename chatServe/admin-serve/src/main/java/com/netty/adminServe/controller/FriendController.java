@@ -30,6 +30,7 @@ public class FriendController {
     @Log(title = "getFriend",businessType = BusinessType.OTHER,operatorType = OperatorType.USER)
     public Object login(@RequestParam Integer userId) {
         System.out.println(userId);
+//        return "success";
         return RestMsg.ok(friendMapper.getUserFriends(userId));
     }
 

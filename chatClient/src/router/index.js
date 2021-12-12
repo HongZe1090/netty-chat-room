@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import WeChat from '../views/wechat.vue'
+import chatroom from '../views/chatroom.vue'
 import Login from '../views/login.vue'
 Vue.use(VueRouter)
 
@@ -13,7 +13,7 @@ const routes = [
   {
     path: "/wechat",
     name: "chatRoom",
-    component: WeChat
+    component: chatroom
   },
 ]
 

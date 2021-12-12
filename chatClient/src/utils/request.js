@@ -43,9 +43,11 @@ export function postJSON(url, paramsObj, token) {
 }
 export function postUrl(url, paramsObj) {
     return new Promise((resolve, reject) => {
+        console.log("这个方法走了")
         axios({
             method: 'post',
             url: url,
+            // 参数解析
             params: paramsObj,
             // headers: {
             //     "Authorization":'bearer '+ token  //token换成从缓存获取

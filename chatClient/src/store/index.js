@@ -5,18 +5,37 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      userInfo: {}
+  currentState:{
+      toId:'',
+      type:'',
+      userName:'',
+      image:''
+  },
+  myInfo: {
+    userId: "",
+    userName: "",
+    sex: "",
+    image: "",
+    description: "",
+  },
   },
   mutations: {
-     commitInfo: function(state, info) {
-      state.userInfo = info;
-      localStorage.setItem("userInfo"+info.userId, JSON.stringify(info));
+    commitMyInfo: function(state, info) {
+      state.myInfo = info;
+      console.log(state.myInfo)
+    },
+    commitcurrentState: function(state, info){
+      state.currentState = info
+      console.log(state.currentState)
     }
   },
   actions: {
+    chooseAccept: function(state, info) {
+      this.commit("commitcurrentState", info)
+     },
      saveUserInfo: function(state, info) {
-       this.commit("commitInfo", info)
-     }
+       this.commit("commitMyInfo", info)
+     },
   },
   modules: {
   }
