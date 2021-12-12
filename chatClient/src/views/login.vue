@@ -1,16 +1,26 @@
 <template>
      <div class="login-container">
-             <div class="input-container">
-                 <div class="top-information">欢迎您，请登录</div>
-                 <div class="input-warpper">
+             <form class="login-form">
+                <div class="title-container">
+                    <h3 class="title">你来啦,等你好久啦 Hi~ o(*￣▽￣*)ブ</h3>
+                </div>
+
+                <div class="input-warpper">
                  <span></span><input class="input-content" placeholder="用户名" type="input" autocomplete="off" v-model="userName">
                  </div>
+
                  <div class="input-warpper">
                  <span></span><input class="input-content" placeholder="密码" type="password" autocomplete="off" v-model="password">
-                 </div>
-                 <button class="commit" @click="toLogin">登录</button>
-                 <div class="foot-tip">如果忘记密码，请联系管理员重置。</div>
-             </div>
+                 </div>                
+
+                <button class="cta" @click="toLogin()">
+                    <span>点击登陆</span>
+                    <svg width="15px" height="10px" viewBox="0 0 13 10">
+                    <path d="M1,5 L11,5"></path>
+                    <polyline points="8 1 12 5 8 9"></polyline>
+                    </svg>
+                </button>
+             </form>
      </div>
 </template>
 
@@ -38,14 +48,10 @@ export default {
         toLogin: function() {
             let me = this;
             let loginParam = {
-                username: me.userName,
+                userName: me.userName,
                 password: me.password,
-                grant_type: "password",
-                scope: "app",
-                client_id: "client",
-                client_secret: "secret"
             }
-            request.postUrlContentType("/oauth/token", loginParam).then(function(res) {
+            request.postUrlContentType("http://localhost:8081/auth/login", loginParam).then(function(res) {
                 if (res.data) {
                    //再去请求userId
                    let userParams = {
@@ -53,13 +59,13 @@ export default {
                    }
                    let token = res.data.access_token;
                    request.postJSON("/wechat/login/getUser", userParams, token).then(function(res) {
-                        me.saveUserInfo(res.data.obj);
-                        let params = {
-                            userId: res.data.obj.userId
-                        }
-                        localStorage.setItem("access_token_"+params.userId, token)
-                        let encodeUrl = window.encodeURI(JSON.stringify(params));
-                        me.$router.push('/wechat?urlParams='+encodeUrl)
+                        // me.saveUserInfo(res.data.obj);
+                        // let params = {
+                        //     userId: res.data.obj.userId
+                        // }
+                        // localStorage.setItem("access_token_"+params.userId, token)
+                        // let encodeUrl = window.encodeURI(JSON.stringify(params));
+                        // me.$router.push('/wechat?urlParams='+encodeUrl)
                    })
                 } else {
                     alert("登录失败，密码错误！")

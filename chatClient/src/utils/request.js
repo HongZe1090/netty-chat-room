@@ -59,12 +59,14 @@ export function postUrl(url, paramsObj, token) {
 }
 //请求token用到的
 export function postUrlContentType(url, paramsObj) {
+    console.log(paramsObj) 
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
             url: url,
-            params: paramsObj,
+            data: paramsObj,
           }).then((res) => {
+              console.log(res);
             resolve(res)
         }).catch((e) => {
             reject(e)

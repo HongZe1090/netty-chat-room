@@ -7,10 +7,7 @@ import com.netty.log.annotation.Log;
 import com.netty.log.constants.BusinessType;
 import com.netty.log.constants.OperatorType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @创建人 HongZe
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+@CrossOrigin
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -31,8 +29,10 @@ public class AuthController {
 
      */
     @PostMapping("/login")
+    @CrossOrigin
     @Log(title = "auth",businessType = BusinessType.LOGIN,operatorType = OperatorType.USER)
     public Object login(@RequestBody AuthBody authBody) {
+        System.out.println(authBody.getUserName());
         return authService.login(authBody);
     }
 
