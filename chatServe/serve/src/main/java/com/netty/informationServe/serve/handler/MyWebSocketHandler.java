@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.netty.common.domain.User;
 import com.netty.informationServe.config.NettyConfig;
 import com.netty.informationServe.protocol.Packet;
+import com.netty.informationServe.protocol.commond;
 import com.netty.informationServe.protocol.packet.CreateGroupPacket;
 import com.netty.informationServe.protocol.packet.GroupMessagePacket;
 import com.netty.informationServe.protocol.packet.RegisterPacket;
 import com.netty.informationServe.protocol.packet.SingleMessagePacket;
+import com.netty.informationServe.utils.SessionUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -120,8 +122,8 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFra
         //        返回应答消息
 //        获取客户端向服务端发送的消息
         String request = ((TextWebSocketFrame) frame).text();
-//        System.out.println("服务端接收到客户端的消息--->"+request);
-        TextWebSocketFrame tws = new TextWebSocketFrame(new Date().toString() + ctx.channel().id() + "---->" + request);
+        ByteBuf buf = getByteBuf(ctx, parmas.getString("message"));
+        TextWebSocketFrame tws = new TextWebSocketFrame(buf);
         ctx.writeAndFlush(tws);
 
 
@@ -157,4 +159,21 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFra
         cause.printStackTrace();
         ctx.close();
     }
+
+    public ByteBuf getByteBuf(ChannelHandlerContext ctx, String message) {
+        ByteBuf byteBuf = ctx.alloc().buffer();
+        User fromUser = SessionUtils.getUser(ctx.channel());
+        JSONObject data = new JSONObject();
+        data.put("type", commond.SELF_RESPONSE);
+        data.put("status", 200);
+        JSONObject params = new JSONObject();
+        params.put("message", message);
+        params.put("date", new Date().toString());
+        data.put("params", params);
+        byte []bytes = data.toJSONString().getBytes(Charset.forName("utf-8"));
+        byteBuf.writeBytes(bytes);
+        return byteBuf;
+    }
+
+
 }

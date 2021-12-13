@@ -5,17 +5,19 @@
       <el-aside width="200px">
           <list/>
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main><chatPart/></el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
 import list from '@/components/list.vue'
+import chatPart from '@/components/chatroom.vue'
 
 export default {
   components: {
-    list
+    list,
+    chatPart
   },
 };
 </script>
@@ -40,9 +42,10 @@ export default {
   }
   
   .el-main {
-    background-color: #E9EEF3;
+    background-color: #f7fbff;
     color: #333;
     text-align: center;
-    line-height: 160px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    padding: 0;
   }
 </style>

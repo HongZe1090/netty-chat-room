@@ -6,14 +6,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
   currentState:{
-      toId:'',
+      toId:null,
       type:'',
       userName:'',
       image:''
   },
   myInfo: {
-    userId: "",
+    userId: null,
     userName: "",
+    password: "",
     sex: "",
     image: "",
     description: "",

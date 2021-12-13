@@ -6,6 +6,7 @@ package com.netty.informationServe.protocol;
  * @描述 协议栈中的各个指令与其对应 也可以用枚举类型
  */
 public interface commond {
+    Byte SELF_RESPONSE = 0;  //私聊消息
     Byte SINGLE_MESSAGE = 1;  //私聊消息
     Byte MESSAGE_RESPONSE = 2;
     Byte CREATE_GROUP = 3; //创建群

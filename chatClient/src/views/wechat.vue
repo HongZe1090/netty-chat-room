@@ -651,7 +651,9 @@ export default {
   //     }
   //     if (window.WebSocket) {
   //       socket = new WebSocket("ws://localhost:9999");
-  //       socket.onmessage = function (event) {
+  //       socket.onme
+  
+  ssage = function (event) {
   //         let json = JSON.parse(event.data);
   //         if (json.status == 200) {
   //           switch(json.type) {
