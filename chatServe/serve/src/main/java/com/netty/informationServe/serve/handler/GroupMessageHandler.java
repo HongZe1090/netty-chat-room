@@ -1,7 +1,6 @@
 package com.netty.informationServe.serve.handler;
 
 import com.netty.informationServe.protocol.packet.GroupMessagePacket;
-import com.netty.informationServe.protocol.packet.RegisterPacket;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

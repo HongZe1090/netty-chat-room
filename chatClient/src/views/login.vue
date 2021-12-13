@@ -39,9 +39,8 @@
 </template>
 
 <script>
-import "@/css/login.less";
-import * as request from "@/utils/request";
-import { mapActions } from "vuex";
+import "@/css/login.less"
+import * as request from "@/utils/request"
 export default {
   data() {
     return {
@@ -87,21 +86,7 @@ export default {
       })
     },
   },
-};
-// request.postUrl("http://localhost:8081/userFriend/getAllFriends",1).then(function(res) {
-//                         // me.saveUserInfo(res.data.obj);
-//                         // let params = {
-//                         //     userId: res.data.obj.userId
-//                         // }
-//                         // localStorage.setItem("access_token_"+params.userId, token)
-//                         // let encodeUrl = window.encodeURI(JSON.stringify(params));
-//                         // me.$router.push('/wechat?urlParams='+encodeUrl)
-//                    })
-//                    //再去请求userId
-//                    let userParams = {
-//                         userName: that.userName,
-//                    }
-//                    let token = res.data.access_token;
+}
 </script>
 
 <style lang="css">

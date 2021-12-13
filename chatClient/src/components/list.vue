@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import * as request from "@/utils/request"
 export default {
   name: "list",
   data() {
@@ -57,17 +58,24 @@ export default {
     };
   },
   created(){
-    this.friend.userId=1
-    this.friend.userName='123'
-    this.friend.sex='男',
-    this.friend.image='',
-    this.friend.description='这是个好人'
-    this.friends.push(this.friend)
-    this.friends.push(this.friend)
-    this.friends.push(this.friend)
+    // this.friend.userId=1
+    // this.friend.userName='123'
+    // this.friend.sex='男',
+    // this.friend.image='',
+    // this.friend.description='这是个好人'
+    // this.friends.push(this.friend)
+    // this.friends.push(this.friend)
+    // this.friends.push(this.friend)
   },
   mounted(){
-
+    let that = this
+    let id = that.$store.state.myInfo.userId
+    request.postUrl("http://localhost:8081/userFriend/getAllFriends",{userId:id}).then(function(result) {
+                        for(let i of result.data){
+                          that.friend = i
+                          that.friends.push(that.friend)
+                        }
+                   })
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -83,6 +91,8 @@ export default {
         userName:friend.userName,
         image:friend.image
       })
+
+      console.log(this.$store.state.currentState.toId)
     }
   },
 };

@@ -121,11 +121,11 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFra
 
         //        返回应答消息
 //        获取客户端向服务端发送的消息
-        String request = ((TextWebSocketFrame) frame).text();
-        ByteBuf buf = getByteBuf(ctx, parmas.getString("message"));
-        TextWebSocketFrame tws = new TextWebSocketFrame(buf);
-        ctx.writeAndFlush(tws);
-
+        if(type == commond.SINGLE_MESSAGE||type == commond.GROUP_MESSAGE){
+            ByteBuf buf = getByteBuf(ctx, parmas.getString("message"));
+            TextWebSocketFrame tws = new TextWebSocketFrame(buf);
+            ctx.writeAndFlush(tws);
+        }
 
         ctx.fireChannelRead(packet);
 

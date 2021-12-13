@@ -12,7 +12,7 @@ export default new Vuex.Store({
       image:''
   },
   myInfo: {
-    userId: null,
+    userId: 1,
     userName: "",
     password: "",
     sex: "",

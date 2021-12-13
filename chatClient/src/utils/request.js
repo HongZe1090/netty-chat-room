@@ -25,22 +25,27 @@ export function getJSON(url, paramsObj, token) {
  * @param {*} url 
  * @param {*} paramsObj 
  */
-export function postJSON(url, paramsObj, token) {
+export function postJSON(url, paramsObj) {
     return new Promise((resolve, reject) => {
+        let that = this
         axios.post(url, 
             paramsObj,
-            {
-                headers: {
-                    "Authorization":'bearer '+ token  //token换成从缓存获取
-                 }
-            }
+            // {
+            //     headers: {
+            //         "Authorization":'bearer '+ token  //token换成从缓存获取
+            //      }
+            // }
         ).then((res) => {
-            resolve(res)
+            resolve(res.data)
         }).catch((e) => {
-            reject(e)
+            this.$message({
+              message: "找不到好朋友,失联啦失联啦...",
+              type: "warning",
+            })
         })
     })
 }
+
 export function postUrl(url, paramsObj) {
     return new Promise((resolve, reject) => {
         console.log("这个方法走了")
@@ -53,10 +58,10 @@ export function postUrl(url, paramsObj) {
             //     "Authorization":'bearer '+ token  //token换成从缓存获取
             // }
           }).then((res) => {
-              console.log(res)
-            resolve(res)
+            console.log(res)
+            resolve(res.data)
         }).catch((e) => {
-            reject(e)
+        Notification.error('找不到好朋友,失联啦失联啦...')
         })
     })
 }

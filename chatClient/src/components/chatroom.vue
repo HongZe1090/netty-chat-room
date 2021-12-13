@@ -87,7 +87,7 @@ export default {
         toUserId:this.currentSta.toId,
         message:this.inputArea,
         fileType:0
-      }
+        }
       }
 
       this.socket.send(JSON.stringify(data));
@@ -131,7 +131,7 @@ export default {
                  default:
                  break;
             }
-          } else if (result.status == 500) {
+          } else if (result.status == 404) {
             // 返回的请求码不为200
             that.$message({
               message: "发送失败 对方不在线",

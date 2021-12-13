@@ -9,7 +9,14 @@
             window.WebSocket = window.MozWebsocket
         }
         if(window.WebSocket) {
-        socket = new WebSocket("ws://localhost:8888/websocket")  //建立连接
+
+        try{
+            //建立连接
+            socket = new WebSocket("ws://localhost:8888/websocket")  
+        }catch{
+            
+        }
+        
 
         socket.onmessage = function(event) {
             var ta = document.getElementById('responseContent')
