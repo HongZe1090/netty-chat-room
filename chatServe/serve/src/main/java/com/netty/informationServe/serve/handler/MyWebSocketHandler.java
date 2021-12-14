@@ -127,10 +127,9 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFra
             ctx.writeAndFlush(tws);
         }
 
+        System.out.println(packet.getCommand());
+
         ctx.fireChannelRead(packet);
-
-
-
     }
 
     //客户端与服务端创建连接

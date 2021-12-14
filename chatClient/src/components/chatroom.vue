@@ -84,7 +84,7 @@ export default {
       let data = {
       type:1,
       params:{
-        toUserId:this.currentSta.toId,
+        toMessageId:2,
         message:this.inputArea,
         fileType:0
         }
@@ -108,11 +108,12 @@ export default {
         // 绑定事件
         socket.onmessage = function (event) {
           console.log(event.data);
-
+            // 这里把信息从json字符串转变成为了json对象了已经
            let result = JSON.parse(event.data)
 
            if (result.status == 200) {
              switch(result.type) {
+               //私聊群聊时会把发送的话返回
                case 0:
                  that.handleSelfResponse(result)
                  break
@@ -192,11 +193,17 @@ export default {
       this.socket = socket;
     },
     handleSelfResponse(result){
-      console.log("进入私聊回复处理类了哦")
+      console.log("进入自己回复处理类了哦...")
       let info = result.params
       info = info.date + "：" + this.selfInfo.userName + "--->" + info.message + "\r\n";
       this.response += info
       console.log(this.response)
+    },
+    handleSingleMessage(result){
+      let info = result.params
+      console.log(info)
+      info = info.date + "：" + info.fromUser.userName + "--->" + info.message + "\r\n";
+      this.response += info
     }
   },
 };

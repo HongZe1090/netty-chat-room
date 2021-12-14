@@ -60,7 +60,7 @@ export default {
   methods: {
     toLogin: function () {
       let that = this
-      that.$router.push('/wechat')
+      // that.$router.push('/wechat')
       let loginParam = {
           userName: that.userName,
           password: that.password,
