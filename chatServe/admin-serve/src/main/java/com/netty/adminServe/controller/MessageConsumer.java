@@ -20,6 +20,6 @@ import org.springframework.stereotype.Component;
 public class MessageConsumer implements RocketMQListener<Object> {
     @Override
     public void onMessage(Object message) {
-        System.out.println("received message is {}" + ((Message) message).getTime());
+        System.out.println("received message is {}" + message);
     }
 }

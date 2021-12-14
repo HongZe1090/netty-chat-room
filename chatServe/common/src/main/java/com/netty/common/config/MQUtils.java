@@ -17,7 +17,7 @@ public class MQUtils {
 
     public void MessageSend(String topic, Object message) {
         rocketMQTemplate.convertAndSend(topic,message);
-        System.out.println("消息已经发送拉...");
+        System.out.println("消息队列的消息已经发送拉...");
     }
 
 }

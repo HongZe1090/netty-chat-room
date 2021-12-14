@@ -1,9 +1,14 @@
 package com.netty.adminServe.controller;
 
-import com.netty.common.constants.Topic;
-import com.netty.common.domain.LoginInfo;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.netty.adminServe.service.Impl.LogServiceImpl;
+import com.netty.adminServe.service.LogService;
+import com.netty.common.entity.LogInfo;
+import com.netty.common.domain.User;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,10 +22,17 @@ import org.springframework.stereotype.Component;
         consumerGroup = "NettyLog",
         selectorExpression = "*"
 )
-public class LogConsumer implements RocketMQListener<String> {
+public class LogConsumer implements RocketMQListener<Object> {
+    @Autowired
+    LogServiceImpl logService;
 
     @Override
-    public void onMessage(String logInfo) {
-        System.out.println("received message is {}" + logInfo);
+    public void onMessage(Object logInfo) {
+        System.out.println(logInfo);
+        LogInfo info =  JSON.parseObject((String) logInfo, LogInfo.class);
+//
+        logService.insertLog(info);
+        System.out.println("received message is {}" + info.getClass().getName());
+
     }
 }

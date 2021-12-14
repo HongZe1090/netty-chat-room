@@ -2,7 +2,7 @@ package com.netty.log.aspect;
 
 import com.netty.common.config.MQUtils;
 import com.netty.common.constants.Topic;
-import com.netty.common.domain.LoginInfo;
+import com.netty.common.entity.LogInfo;
 import com.netty.log.annotation.Log;
 import com.netty.log.constants.BusinessStatus;
 import org.aspectj.lang.JoinPoint;
@@ -51,7 +51,7 @@ public class LogAspect {
         Method method = methodSignature.getMethod();
         Log annotation = method.getAnnotation(Log.class);
 
-        LoginInfo loginInfo = new LoginInfo();
+        LogInfo loginInfo = new LogInfo();
         loginInfo.setOperIp(request.getRemoteAddr());
         loginInfo.setOperUrl(request.getRequestURI());
         loginInfo.setOperTime(new Date());
@@ -62,7 +62,7 @@ public class LogAspect {
         loginInfo.setRequestMethod(methodSignature.getMethod().getName());
 
         System.out.println("这里的消息有没有发送呢");
-        mqUtils.MessageSend("NettyLog",loginInfo);
+        mqUtils.MessageSend(Topic.LogTopic,loginInfo);
     }
 
     /**

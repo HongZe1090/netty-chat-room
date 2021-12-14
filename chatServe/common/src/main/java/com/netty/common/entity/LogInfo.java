@@ -1,5 +1,6 @@
-package com.netty.common.domain;
+package com.netty.common.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,9 @@ import java.util.Date;
  * @创建时间 2021/12/11
  * @描述 消息队列中储存的日志
  */
-public class LoginInfo {
+public class LogInfo implements Serializable {
+    private static final long serialVersionUID = 478123456;
+
     /** 操作模块 */
     private String title;
 

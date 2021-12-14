@@ -1,7 +1,6 @@
 import com.netty.adminServe.AdminServeApplication;
-import com.netty.adminServe.dao.AuthMapper;
-import com.netty.adminServe.dao.FriendMapper;
-import com.netty.adminServe.service.AuthService;
+import com.netty.adminServe.dao.LogMapper;
+import com.netty.common.entity.LogInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -13,12 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = AdminServeApplication.class)
 public class Test {
     @Autowired
-    FriendMapper authMapper;
+    LogMapper logMapper;
 
     @org.junit.jupiter.api.Test
     public void name(){
-
-        System.out.println(authMapper.getUserFriends(1));
+        LogInfo logInfo = new LogInfo();
+        logInfo.setOperName("test");
+        logInfo.setOperStatus(0);
+        System.out.println(logMapper.getAllLog());
     }
 
 

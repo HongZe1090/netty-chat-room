@@ -24,3 +24,20 @@ create table FriendRelation
     FOREIGN KEY(friendId) REFERENCES User(userId)
 )
 ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 comment='好友关系表';
+
+-- 日志表
+create table Log
+(
+    id int auto_increment comment '自增，log的id',
+    title char(20) comment '操作模块',
+    businessType char(20) comment '业务类型',
+    requestMethod char(20) comment '请求方法',
+    operName char(20) comment '操作人员',
+    operatorType char(20) comment '操作类别',
+    operUrl char(20) comment '请求url',
+    operIp char(20) comment '操作地址',
+    operStatus Integer comment '操作状态' DEFAULT '0',
+    operTime date comment '操作时间',
+    PRIMARY KEY(id)
+)
+ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 comment='日志表';
