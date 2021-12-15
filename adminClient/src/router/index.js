@@ -60,64 +60,64 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/log/table',
     name: 'log',
-    meta: { title: '日志管理', icon: 'el-icon-user-solid' },
+    meta: { title: '日志管理', icon: 'el-icon-data-analysis' },
     children: [
       {
         path: 'user-table',
         name: 'Table',
         component: () => import('@/views/userTable/index'),
-        meta: { title: '用户管理', icon: 'el-icon-user-solid' }
+        meta: { title: '日志管理', icon: 'el-icon-data-analysis' }
       }
     ]
   },
 
-  // {
-  //   path: '/message',
-  //   component: Layout,
-  //   redirect: '/user/table',
-  //   name: 'user',
-  //   meta: { title: '消息管理', icon: 'el-icon-user-solid' },
-  //   children: [
-  //     {
-  //       path: 'user-table',
-  //       name: 'Table',
-  //        component: () => import('@/views/userTable/index'),
-  //        meta: { title: '消息管理', icon: 'el-icon-user-solid' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/message',
+    component: Layout,
+    redirect: '/user/table',
+    name: 'user',
+    meta: { title: '消息管理', icon: 'el-icon-chat-dot-square' },
+    children: [
+      {
+        path: 'user-table',
+        name: 'Table',
+         component: () => import('@/views/userTable/index'),
+         meta: { title: '消息管理', icon: 'el-icon-chat-dot-square' }
+      }
+    ]
+  },
 
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   redirect: '/user/table',
-  //   name: 'user',
-  //   meta: { title: '人员管理', icon: 'el-icon-user-solid' },
-  //   children: [
-  //     {
-  //       path: 'user-table',
-  //       name: 'Table',
-  //        component: () => import('@/views/userTable/index'),
-  //        meta: { title: '用户管理', icon: 'el-icon-user-solid' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/table',
+    name: 'user',
+    meta: { title: '人员管理', icon: 'el-icon-user-solid' },
+    children: [
+      {
+        path: 'user-table',
+        name: 'Table',
+         component: () => import('@/views/userTable/index'),
+         meta: { title: '用户管理', icon: 'el-icon-user-solid' }
+      }
+    ]
+  },
 
-  // {
-  //   path: '/group',
-  //   component: Layout,
-  //   redirect: '/user/table',
-  //   name: 'user',
-  //   meta: { title: '群组管理', icon: 'el-icon-user-solid' },
-  //   children: [
-  //     {
-  //       path: 'user-table',
-  //       name: 'Table',
-  //        component: () => import('@/views/userTable/index'),
-  //        meta: { title: '群组管理', icon: 'el-icon-user-solid' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/group',
+    component: Layout,
+    redirect: '/user/table',
+    name: 'user',
+    meta: { title: '群组管理', icon: 'el-icon-help' },
+    children: [
+      {
+        path: 'user-table',
+        name: 'Table',
+         component: () => import('@/views/userTable/index'),
+         meta: { title: '群组管理', icon: 'el-icon-help' }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
