@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>Header</el-header>
+    <el-header>这里是Netty高性能聊天室的客户端</el-header>
     <el-container>
       <el-aside width="200px">
           <list/>

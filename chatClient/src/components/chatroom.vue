@@ -3,7 +3,7 @@
   <div>
     <el-row>
       <el-col :span="1"><el-avatar :size="45" :src="circleUrl" /></el-col>
-      <el-col :span="1.5" class="Name">你好呀</el-col>
+      <el-col :span="1.5" class="Name">{{currentSta.userName}}</el-col>
     </el-row>
 
     <el-divider></el-divider>
@@ -31,9 +31,13 @@
       </el-col>
       <el-col :span="3">
         <el-row>
-          <el-col
-            ><el-avatar class="myself" :size="50" :src="circleUrl"
-          /></el-col>
+          <el-col>
+            <el-row>
+            <el-avatar class="myself" :size="50" :src="circleUrl"
+          /></el-row>
+          <el-row>{{myInfo.userName}}
+          </el-row>
+          </el-col>
         </el-row>
         <el-row>
           <el-button type="success" plain @click="send()">发送</el-button>
