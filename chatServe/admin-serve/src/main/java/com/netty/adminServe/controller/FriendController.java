@@ -1,11 +1,13 @@
 package com.netty.adminServe.controller;
 
 import com.netty.adminServe.dao.FriendMapper;
+import com.netty.adminServe.service.FriendService;
 import com.netty.common.model.base.RestMsg;
 import com.netty.common.model.form.AuthBody;
 import com.netty.log.annotation.Log;
 import com.netty.log.constants.BusinessType;
 import com.netty.log.constants.OperatorType;
+import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,9 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/userFriend")
 public class FriendController {
+
     @Autowired
-    FriendMapper friendMapper;
+    FriendService friendService;
 
     /**
 
@@ -28,11 +31,34 @@ public class FriendController {
      */
     @PostMapping("/getAllFriends")
     @Log(title = "getFriend",businessType = BusinessType.OTHER,operatorType = OperatorType.USER)
-    public Object login(@RequestParam Integer userId) {
+    public Object getAllFriends(@RequestParam Integer userId) {
         System.out.println(userId);
 //        return "success";
-        return RestMsg.ok(friendMapper.getUserFriends(userId));
+        return RestMsg.ok(friendService.getUserFriends(userId));
     }
+
+    @GetMapping("/addFriend")
+    @Log(title = "addFriend",businessType = BusinessType.OTHER,operatorType = OperatorType.USER)
+    public RestMsg addFriend(@RequestParam Integer userId, @RequestParam Integer friendId){
+        int status = friendService.addFriend(userId, friendId);
+        if(status == 0){
+            return RestMsg.ok("添加成功");
+        }else {
+            return RestMsg.fail("异常添加失败，请重试");
+        }
+    }
+
+    @GetMapping("/deleteFriend")
+    public RestMsg deleteFriend(@RequestParam Integer userId, @RequestParam Integer friendId){
+        int status = friendService.deleteFriend(userId, friendId);
+        if(status == 0){
+            return RestMsg.ok("单向删除");
+        }else {
+            return RestMsg.fail("删除失败，请重试");
+        }
+    }
+
+
 
 
 }

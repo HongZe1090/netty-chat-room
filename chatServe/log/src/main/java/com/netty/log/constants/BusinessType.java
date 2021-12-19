@@ -39,7 +39,7 @@ public class BusinessType
     public static final String LOGIN = "login";
 
     /**
-     * 登入
+     * 登出
      */
     public static final String LOGINOUT = "loginOut";
 

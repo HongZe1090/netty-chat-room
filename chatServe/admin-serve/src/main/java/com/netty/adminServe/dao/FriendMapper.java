@@ -1,6 +1,8 @@
 package com.netty.adminServe.dao;
 
 import com.netty.common.model.Result.Friend;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,10 +15,28 @@ import java.util.List;
 @Mapper
 public interface FriendMapper {
     /**
-
      *@描述 获取用户的好友列表
-
      */
     public List<Friend> getUserFriends(Integer userId);
 
+
+    /**
+     * 添加朋友
+     * @param owerId 当前用户id
+     * @param friendId 新添加的朋友id
+     * @return 返回添加成功状态 0 -> 添加失败， 1->成功
+     */
+    @Insert("insert into friend_relation(ower_id,friend_id) values(#{owerId},#{friendId})")
+    int insertFriend(Integer owerId,Integer friendId);
+
+    /**
+     * 删除朋友
+     * @param owerId 当前用户id
+     * @param friendId 要删除的朋友id
+     * @return 返回删除成功状态 0 -> 添加失败， 1->成功
+     */
+    @Delete("delete from friend_relation where ower_id = #{owerId} and friend_id = #{friendId}")
+    int deleteFriend(Integer owerId,Integer friendId);
+
+    //修改没有必要 关联通过主键 主键平常不会改变，因此修改关系不需要
 }
