@@ -8,11 +8,13 @@
     <el-divider></el-divider>
 
     <el-row class="SecRow">
-      <ul class="chat">
-        <li class="chat-message" :key="res.userName" v-for="res in resList">
-          <span class="chat-text">{{res.message}}</span>
-        </li>
-      </ul>
+      <el-input
+        type="textarea"
+        :rows="18"
+        placeholder="这里是对话内容框"
+        v-model="response"
+      >
+      </el-input>
     </el-row>
 
     <el-divider></el-divider>
@@ -43,7 +45,6 @@
 </template>
 
 <script>
-import "@/css/chatRoom.less"
 export default {
   name: "chatPart",
   data() {
@@ -56,13 +57,7 @@ export default {
       // 发送的输入内容
       inputArea: "",
       // 收到的信息
-      response: {
-        userName:null,
-        message:null,
-        date:null,
-        image:null
-      },
-      resList:[],
+      response: "",
       circleUrl:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
     }
@@ -70,12 +65,6 @@ export default {
   created() {
       this.selfInfo = this.$store.state.myInfo
       this.currentSta = this.$store.state.currentState
-      for(let i=0;i<10;i++){
-        this.response.userName = "HongZe"
-        this.response.message = "你好呀我的朋友"
-        this.resList.push(this.response)
-      }
-      
   },
   mounted() {
     this.getSocket()
@@ -230,6 +219,5 @@ export default {
 }
 .SecRow {
   height: 380px;
-  overflow-y: auto;
 }
 </style>
