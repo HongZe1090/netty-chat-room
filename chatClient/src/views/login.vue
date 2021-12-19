@@ -79,7 +79,7 @@ export default {
               that.$router.push('/wechat')
       }
       if(data.code != 200 ) {
-              that.$alert(data.message, '进不去进不去', {
+              that.$alert("进不去进不去", data.message, {
               confirmButtonText: '确定',
               })
           }

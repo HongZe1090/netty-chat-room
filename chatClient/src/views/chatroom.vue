@@ -5,7 +5,8 @@
       <el-aside width="200px">
           <list/>
       </el-aside>
-      <el-main><chatPart/></el-main>
+      <el-main v-if="currentSta.toId!=null"><chatPart/></el-main>
+      <el-main v-else><el-empty style="margin-top:100px" description="现在还啥都没有哦,快点找你的好朋友们开始聊天吧"></el-empty></el-main>
     </el-container>
   </el-container>
 </template>
@@ -13,8 +14,15 @@
 <script>
 import list from '@/components/list.vue'
 import chatPart from '@/components/chatroom.vue'
+import { mapState } from 'vuex'
 
 export default {
+  computed: {
+    ...mapState({
+      // 对话对象
+      currentSta:"currentState",
+    }),
+  },
   components: {
     list,
     chatPart

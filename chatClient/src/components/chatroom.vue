@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <el-row>
       <el-col :span="1"><el-avatar :size="45" :src="circleUrl" /></el-col>
@@ -51,10 +52,6 @@ export default {
   data() {
     return {
       socket: null,
-      // 当前用户信息
-      selfInfo: null,
-      // 对话对象
-      currentSta: null,
       // 发送的输入内容
       inputArea: "",
       // 收到的信息 但是多次使用同一个对象储存类会造成数组元素刷新的问题，所以这里其实只有id用了
@@ -71,13 +68,12 @@ export default {
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
     }
   },
-  created() {
-      this.selfInfo = this.$store.state.myInfo
-      this.currentSta = this.$store.state.currentState
-  },
 computed: {
     ...mapState({
-      
+      // 当前用户信息
+      myInfo:"myInfo",
+      // 对话对象
+      currentSta:"currentState",
     }),
   },
   mounted() {
@@ -96,9 +92,9 @@ computed: {
     },
     send() {
       let data = {
-      type:1,
+      type:this.currentSta.type,
       params:{
-        toMessageId:2,
+        toMessageId:this.currentSta.toId,
         message:this.inputArea,
         fileType:0
         }
@@ -171,15 +167,15 @@ computed: {
               type: 7,
               params: {
                 // 用户id
-                userId: that.selfInfo.userId,
+                userId: that.myInfo.userId,
                 // 用户名
-                userName: that.selfInfo.userName,
+                userName: that.myInfo.userName,
                 // 密码
-                password: that.selfInfo.userName,
+                password: that.myInfo.password,
                 // 性别
-                sex: that.selfInfo.sex,
+                sex: that.myInfo.sex,
                 // 头像路径
-                image: that.selfInfo.image,
+                image: that.myInfo.image,
               },
             }
             socket.send(JSON.stringify(data));
@@ -214,27 +210,23 @@ computed: {
       response.id = this.response.id++
       response.state = 0
       response.message = info.message
-      response.userName = this.selfInfo.userName
+      response.userName = this.myInfo.userName
       response.date = info.date
-      
-      console.log("这里是私聊回复处理类：")
-      console.log(this.resList)
      
       this.resList.push(response)
-      
-      console.log(this.resList)
     },
     handleSingleMessage(result){
       let info = result.params
 
-      this.response.id++
-      this.response.state = 2
-      this.response.message = info.message
-      this.response.userName = info.fromUser.userName
-      this.response.date = info.date
+      let response = {}
 
-      this.resList.push(this.response)
-      console.log(this.response)
+      response.id = this.response.id++
+      response = 2
+      response = info.message
+      response = info.fromUser.userName
+      response = info.date
+
+      this.resList.push(response)
     }
   },
 };

@@ -58,14 +58,6 @@ export default {
     };
   },
   created(){
-    // this.friend.userId=1
-    // this.friend.userName='123'
-    // this.friend.sex='男',
-    // this.friend.image='',
-    // this.friend.description='这是个好人'
-    // this.friends.push(this.friend)
-    // this.friends.push(this.friend)
-    // this.friends.push(this.friend)
   },
   mounted(){
     let that = this
@@ -87,12 +79,10 @@ export default {
     beignChat(friend){
       this.$store.dispatch("chooseAccept",{
         toId:friend.userId,
-        type:0,
+        type:1,
         userName:friend.userName,
         image:friend.image
       })
-
-      console.log(this.$store.state.currentState.toId)
     }
   },
 };
