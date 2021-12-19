@@ -9,8 +9,9 @@
 
     <el-row class="SecRow">
       <ul class="chat">
-        <li class="chat-message" :key="res.userName" v-for="res in resList">
-          <span class="chat-text">{{res.message}}</span>
+        <li class="inline" :key="res.id" v-for="res in resList">
+          <el-avatar :size="40" :src="circleUrl" />
+          <span class="chat-message chat-text">{{res.message}}</span>
         </li>
       </ul>
     </el-row>
@@ -44,6 +45,7 @@
 
 <script>
 import "@/css/chatRoom.less"
+import { mapState } from 'vuex'
 export default {
   name: "chatPart",
   data() {
@@ -55,8 +57,10 @@ export default {
       currentSta: null,
       // 发送的输入内容
       inputArea: "",
-      // 收到的信息
+      // 收到的信息 但是多次使用同一个对象储存类会造成数组元素刷新的问题，所以这里其实只有id用了
       response: {
+        id:0,
+        state:null,
         userName:null,
         message:null,
         date:null,
@@ -70,12 +74,11 @@ export default {
   created() {
       this.selfInfo = this.$store.state.myInfo
       this.currentSta = this.$store.state.currentState
-      for(let i=0;i<10;i++){
-        this.response.userName = "HongZe"
-        this.response.message = "你好呀我的朋友"
-        this.resList.push(this.response)
-      }
+  },
+computed: {
+    ...mapState({
       
+    }),
   },
   mounted() {
     this.getSocket()
@@ -204,17 +207,34 @@ export default {
       this.socket = socket;
     },
     handleSelfResponse(result){
-      console.log("进入自己回复处理类了哦...")
       let info = result.params
-      info = info.date + "：" + this.selfInfo.userName + "--->" + info.message + "\r\n";
-      this.response += info
-      console.log(this.response)
+
+      let response = {}
+
+      response.id = this.response.id++
+      response.state = 0
+      response.message = info.message
+      response.userName = this.selfInfo.userName
+      response.date = info.date
+      
+      console.log("这里是私聊回复处理类：")
+      console.log(this.resList)
+     
+      this.resList.push(response)
+      
+      console.log(this.resList)
     },
     handleSingleMessage(result){
       let info = result.params
-      console.log(info)
-      info = info.date + "：" + info.fromUser.userName + "--->" + info.message + "\r\n";
-      this.response += info
+
+      this.response.id++
+      this.response.state = 2
+      this.response.message = info.message
+      this.response.userName = info.fromUser.userName
+      this.response.date = info.date
+
+      this.resList.push(this.response)
+      console.log(this.response)
     }
   },
 };
@@ -231,5 +251,8 @@ export default {
 .SecRow {
   height: 380px;
   overflow-y: auto;
+}
+.inline{
+  display: flex;
 }
 </style>

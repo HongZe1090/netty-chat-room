@@ -4,17 +4,17 @@
     --blue: #92D6E4;
     --chat-tail-size: 21px;
   }
-    
+
   .chat {
     display: grid;
     grid-gap: 1rem;
     justify-items: start;
-    padding: 1rem;
+    padding: 0.5rem;
   }
   
   .chat-message {
     --bubble-color: var(--gray100);
-    
+    margin-left: 19px;
     position: relative;
     padding: .625rem;
     background-color: var(--bubble-color);
@@ -39,7 +39,7 @@
     &::before {
       height: calc(var(--chat-tail-size) * 1.2);
       width: calc(var(--chat-tail-size) * .85);
-      background-color: currentColor;
+      background-color: #ddd;
       border-radius: 50% 50% 20px/10px 0;
       top: calc((100% - (var(--chat-tail-size) / 2)) - 11px);
       right: calc((100% + (var(--chat-tail-size) / 2) * -1) + 4px);
@@ -48,7 +48,7 @@
     &::after {
       height: calc(var(--chat-tail-size) * 1.25);
       width: var(--chat-tail-size);
-      background-color: var(--black);
+      background-color: #f7fbff;
       border-radius: 0 0 16px/14px;
       top: calc((100% - (var(--chat-tail-size) / 2)) - 11px);
       right: 100%;
@@ -60,6 +60,7 @@
         border-radius: 50% 50% 0 20px/10px;
         left: calc((100% + (var(--chat-tail-size) / 2) * -1) + 3px);
         right: auto;
+        background-color: var(--blue);
       }
       &::after {
         border-radius: 0 0 0 16px/14px;
@@ -69,7 +70,6 @@
     }
   }
   .chat-text {
-    margin: 0;
     max-width: 32ch;
     font-size: .875rem;
     line-height: 1;

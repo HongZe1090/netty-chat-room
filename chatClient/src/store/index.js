@@ -18,7 +18,7 @@ export default new Vuex.Store({
     sex: "",
     image: "",
     description: "",
-  },
+  }
   },
   mutations: {
     commitMyInfo: function(state, info) {
@@ -36,7 +36,7 @@ export default new Vuex.Store({
      },
      saveUserInfo: function(state, info) {
        this.commit("commitMyInfo", info)
-     },
+     }
   },
   modules: {
   }
