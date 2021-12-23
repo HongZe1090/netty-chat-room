@@ -38,7 +38,7 @@ public class FriendController {
     }
 
     @GetMapping("/addFriend")
-    @Log(title = "addFriend",businessType = BusinessType.OTHER,operatorType = OperatorType.USER)
+    @Log(title = "addFriend",businessType = BusinessType.INSERT,operatorType = OperatorType.USER)
     public RestMsg addFriend(@RequestParam Integer userId, @RequestParam Integer friendId){
         int status = friendService.addFriend(userId, friendId);
         if(status == 0){
@@ -49,6 +49,7 @@ public class FriendController {
     }
 
     @GetMapping("/deleteFriend")
+    @Log(title = "deleteFriend",businessType = BusinessType.DELETE,operatorType = OperatorType.USER)
     public RestMsg deleteFriend(@RequestParam Integer userId, @RequestParam Integer friendId){
         int status = friendService.deleteFriend(userId, friendId);
         if(status == 0){
