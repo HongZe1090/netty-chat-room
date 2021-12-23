@@ -100,11 +100,11 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFra
                 break;
             // 创建群聊
             case 3:
-                CreateGroupPacket createGroupRequestPacket = new CreateGroupPacket();
+                CreateGroupPacket createGroupPacket = new CreateGroupPacket();
                 String userListStr = parmas.getString("userIdList");
                 List<String> userIdList = Arrays.asList(userListStr.split(","));
-//                createGroupRequestPacket.setUserIdList(userIdList);
-                packet = createGroupRequestPacket;
+                createGroupPacket.setUserIdList(userIdList);
+                packet = createGroupPacket;
                 break;
             // 群聊消息
             case 9:

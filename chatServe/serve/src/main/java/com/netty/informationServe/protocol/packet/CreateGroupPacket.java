@@ -14,13 +14,13 @@ public class CreateGroupPacket extends Packet {
     /**
      * 创建群里需要把群里的Id发过来
      */
-    private List<Integer> userIdList;
+    private List<String> userIdList;
 
-    public List<Integer> getUserIdList() {
+    public List<String> getUserIdList() {
         return userIdList;
     }
 
-    public void setUserIdList(List<Integer> userIdList) {
+    public void setUserIdList(List<String> userIdList) {
         this.userIdList = userIdList;
     }
 

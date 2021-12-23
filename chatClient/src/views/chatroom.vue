@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header>这里是Netty高性能聊天室的客户端</el-header>
+    <el-header><headerTop/></el-header>
     <el-container>
       <el-aside width="200px">
           <list/>
@@ -14,6 +14,7 @@
 <script>
 import list from '@/components/list.vue'
 import chatPart from '@/components/chatroom.vue'
+import headerTop from '@/components/header.vue'
 import { mapState } from 'vuex'
 
 export default {
@@ -25,7 +26,8 @@ export default {
   },
   components: {
     list,
-    chatPart
+    chatPart,
+    headerTop
   },
 };
 </script>
@@ -40,6 +42,7 @@ export default {
     color: #333;
     text-align: center;
     line-height: 60px;
+    padding: 0px;
   }
   
   .el-aside {
