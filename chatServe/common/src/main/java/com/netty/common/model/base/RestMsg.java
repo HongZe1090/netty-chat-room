@@ -40,6 +40,10 @@ public class RestMsg<T> implements Serializable {
         return restResult(data, SUCCESS, msg);
     }
 
+    public static <T> RestMsg<T> ok(String msg) {
+        return restResult(null, SUCCESS, msg);
+    }
+
     public static <T> RestMsg<T> fail() {
         return restResult(null, FAIL, null);
     }

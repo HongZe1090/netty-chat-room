@@ -3,6 +3,7 @@ package com.netty.adminServe.service.Impl;
 import com.netty.adminServe.dao.FriendMapper;
 import com.netty.adminServe.service.FriendService;
 import com.netty.common.model.Result.Friend;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,15 @@ public class FriendServiceImpl implements FriendService {
             soleFriends.add(friend);
         }
         return soleFriends;
+    }
+
+    @Override
+    public int addFriend(Integer userId, Integer friendId) {
+        return friendMapper.insertFriend(userId, friendId);
+    }
+
+    @Override
+    public int deleteFriend(Integer userId, Integer friendId) {
+        return friendMapper.deleteFriend(userId,friendId);
     }
 }

@@ -11,5 +11,28 @@ import java.util.Set;
  */
 public interface FriendService {
 
+    /**
+     * 获取当前用户朋友列表
+     * @param userId
+     * @return
+     */
     public Set<Friend> getUserFriends(Integer userId);
+
+    /**
+     * 添加好友
+     * @param userId
+     * @param friendId
+     * @return
+     */
+    int addFriend(Integer userId, Integer friendId);
+
+    /**
+     * 删除好友
+     * @param userId
+     * @param friendId
+     * @return
+     */
+    int deleteFriend(Integer userId, Integer friendId);
+
+
 }

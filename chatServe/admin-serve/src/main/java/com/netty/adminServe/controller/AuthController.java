@@ -1,6 +1,5 @@
 package com.netty.adminServe.controller;
 
-import com.netty.adminServe.service.AuthService;
 import com.netty.adminServe.service.Impl.AuthServiceImpl;
 import com.netty.common.model.form.AuthBody;
 import com.netty.log.annotation.Log;
@@ -34,5 +33,9 @@ public class AuthController {
         System.out.println(authBody.getUserName());
         return authService.login(authBody);
     }
+
+    //@GetMapping("/logout")
+    //@Log(title = "auth",businessType = BusinessType.LOGINOUT,operatorType = OperatorType.USER)
+    //public
 
 }
