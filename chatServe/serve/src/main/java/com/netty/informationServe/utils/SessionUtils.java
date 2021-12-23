@@ -50,6 +50,7 @@ public class SessionUtils {
 	 */
 	public static void bindChannelGroup(Integer groupId, ChannelGroup channelGroup) {
 		groupIdChannelGroupMap.put(groupId, channelGroup);
+		System.out.println(channelGroup);
 	}
 
 	public static ChannelGroup getChannelGroup(Integer groupId) {

@@ -103,7 +103,6 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFra
                 CreateGroupPacket createGroupPacket = new CreateGroupPacket();
                 String userListStr = parmas.getString("userIdList");
                 List<String> userIdList = Arrays.asList(userListStr.split(","));
-                System.out.println(userIdList);
                 createGroupPacket.setUserIdList(userIdList);
                 packet = createGroupPacket;
                 break;

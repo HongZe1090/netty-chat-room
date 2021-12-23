@@ -16,10 +16,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @创建人 HongZe
@@ -42,13 +39,20 @@ public class GreatGroupHandler extends SimpleChannelInboundHandler<CreateGroupPa
         for (String userId : userIdList) {
             Integer it = Integer.valueOf(userId);
             Channel channel = SessionUtils.getChannel(it);
-            User user = SessionUtils.getUser(channel);
             if (channel != null) {
+                User user = SessionUtils.getUser(channel);
                 channelGroup.add(channel);
                 nameList.add(user.getUserName());
+                System.out.println("这里是处理类哦"+channel);
+                System.out.println("这里是处理类哦"+nameList);
             }
         }
-        String groupId = UUID.randomUUID().toString();
+        System.out.println("这里时前"+channelGroup);
+        System.out.println(nameList);
+        System.out.println(channelGroup);
+        Random r = new Random(1);
+        Integer groupId = r.nextInt(100);
+        System.out.println(groupId);
         // 绑定群Id 和 channelgroup的映射
         Integer it = Integer.valueOf(groupId);
         SessionUtils.bindChannelGroup(it, channelGroup);
@@ -56,13 +60,14 @@ public class GreatGroupHandler extends SimpleChannelInboundHandler<CreateGroupPa
         channelGroup.writeAndFlush(new TextWebSocketFrame(byteBuf));
     }
 
-    public ByteBuf getByteBuf(ChannelHandlerContext ctx, String groupId, List<String> nameList) {
+    public ByteBuf getByteBuf(ChannelHandlerContext ctx, Integer groupId, List<String> nameList) {
         ByteBuf bytebuf = ctx.alloc().buffer();
         JSONObject data = new JSONObject();
         data.put("type", 4);
         data.put("status", 200);
         data.put("groupId", groupId);
         data.put("nameList", nameList);
+        System.out.println(data);
         byte []bytes = data.toJSONString().getBytes(Charset.forName("utf-8"));
         bytebuf.writeBytes(bytes);
         return bytebuf;

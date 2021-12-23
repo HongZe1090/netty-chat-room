@@ -31,6 +31,7 @@ public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessag
         Integer groupId = groupMessagePacket.getToGroupId();
         String fileType = groupMessagePacket.getFileType();
         ChannelGroup channelGroup = SessionUtils.getChannelGroup(groupId);
+        System.out.println(channelGroup);
         List<String> nameList = new ArrayList<>();
         for (Channel channel : channelGroup) {
             User user = SessionUtils.getUser(channel);

@@ -67,6 +67,8 @@ export default {
         date:null,
         image:null
       },
+      // 通信端返回的通信groupid，每次点击或新用户上线都会新建，可否优化？？在前端获取之前的groupid
+      newGroupId:'',
       curreGroup:{},
       resList:[],
       circleUrl:
@@ -81,19 +83,17 @@ computed: {
       currentSta:"currentState",
     }),
   },
+  watch:{
+    currentSta:{
+      handler(newVal, objVal) {
+      console.log(newVal)
+      this.creatGroup()
+      console.log("发送什么市区了")
+      },
+    }
+  },
   mounted() {
     this.getSocket()
-    if(currentSta.type == 0) {
-      // 通知创建channel群组
-      let data = {
-      type:3,
-      params:{
-        userIdList:this.currentSta.members
-        }
-      }
-
-      this.socket.send(JSON.stringify(data));
-    }
   },
   methods: {
     // 连接关闭的回调函数
@@ -107,10 +107,17 @@ computed: {
       };
     },
     send() {
+      // 如果是群聊，绑定通信端传回的新id
+      let thisMes
+      if(this.currentSta.type == 9)
+      thisMes = this.groupId
+      else
+      thisMes = this.currentSta.type
+
       let data = {
       type:this.currentSta.type,
       params:{
-        toMessageId:this.currentSta.toId,
+        toMessageId:thisMes,
         message:this.inputArea,
         fileType:0
         }
@@ -259,11 +266,27 @@ computed: {
       this.resList.push(response)
     },
     handleCreateChatResponse(result){
-      that.$message({
+      this.$message({
             message: "成功进入"+result.groupId+"聊天室啦...",
             type: "success",
       })
+      this.groupId = result.groupId
       this.curreGroup = null
+    },
+    creatGroup(){
+    console.log("这里走了已经")
+    console.log(this.currentSta.type)
+    if(this.currentSta.type == 9) {
+      // 通知创建channel群组
+      let data = {
+      type:3,
+      params:{
+        userIdList:this.currentSta.members
+        }
+      }
+      console.log(data)
+      this.socket.send(JSON.stringify(data));
+    }
     }
 
   },
