@@ -25,6 +25,7 @@ import java.util.UUID;
  * @创建人 HongZe
  * @创建时间 2021/12/2
  * @描述 创建群组处理器
+ * @问题 前端每次点击群组组件都会新建一个channelGroup组，能否改进？？？
  */
 @Service
 @ChannelHandler.Sharable

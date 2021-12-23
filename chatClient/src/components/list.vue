@@ -26,7 +26,7 @@
           <span>群组</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item :key="friend.userId" v-for="friend in friends">{{friend.userName}}</el-menu-item>
+          <el-menu-item :key="gro.groupId" v-for="gro in groups" @click="beignGroupChat(gro)">{{gro.groupName}}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -46,10 +46,14 @@ export default {
           image:'',
           description:''
       },
-      friends:[],
       group:{
-
+          groupId:'',
+          groupName:'',
+          image:'',
+          description:'',
+          members:''
       },
+      friends:[],
       groups:[],
       currentState:{
           toId:'',
@@ -68,6 +72,7 @@ export default {
                           that.friends.push(that.friend)
                         }
                    })
+    this.groups.push({groupId:1,groupName:'hhhh',image:null,description:'this is testing',members:'1,2,3,'})
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -82,6 +87,16 @@ export default {
         type:1,
         userName:friend.userName,
         image:friend.image
+      })
+    },
+    beignGroupChat(group){
+        this.$store.dispatch("chooseAccept",{
+        type:0,
+        toId:group.groupId,
+        userName:group.groupName,
+        image:group.image,
+        description:group.description,
+        members:group.members
       })
     }
   },

@@ -67,6 +67,7 @@ export default {
         date:null,
         image:null
       },
+      curreGroup:{},
       resList:[],
       circleUrl:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
@@ -82,6 +83,17 @@ computed: {
   },
   mounted() {
     this.getSocket()
+    if(currentSta.type == 0) {
+      // 通知创建channel群组
+      let data = {
+      type:3,
+      params:{
+        userIdList:this.currentSta.members
+        }
+      }
+
+      this.socket.send(JSON.stringify(data));
+    }
   },
   methods: {
     // 连接关闭的回调函数
@@ -141,7 +153,7 @@ computed: {
                  that.handleGroupMessageResponse(result);
                  break;
                case 12:
-                 console.log("收到心跳检测回复")
+                //  console.log("收到心跳检测回复")
                  break;
                  default:
                  break;
@@ -232,7 +244,28 @@ computed: {
 
       this.resList.push(response)
       
+    },
+    handleGroupMessageResponse(result){
+      let info = result.params
+
+      let response = {}
+
+      response.id = this.response.id++
+      response.state = 2
+      response.message = info.message
+      response.userName = info.fromUser.userName
+      response.date = info.date
+
+      this.resList.push(response)
+    },
+    handleCreateChatResponse(result){
+      that.$message({
+            message: "成功进入"+result.groupId+"聊天室啦...",
+            type: "success",
+      })
+      this.curreGroup = null
     }
+
   },
 };
 </script>
