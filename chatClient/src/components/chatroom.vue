@@ -225,12 +225,13 @@ computed: {
       let response = {}
 
       response.id = this.response.id++
-      response = 2
-      response = info.message
-      response = info.fromUser.userName
-      response = info.date
+      response.state = 2
+      response.message = info.message
+      response.userName = info.fromUser.userName
+      response.date = info.date
 
       this.resList.push(response)
+      
     }
   },
 };

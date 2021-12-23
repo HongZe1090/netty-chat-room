@@ -52,7 +52,7 @@ public class SessionUtils {
 		groupIdChannelGroupMap.put(groupId, channelGroup);
 	}
 
-	public static ChannelGroup getChannelGroup(String groupId) {
+	public static ChannelGroup getChannelGroup(Integer groupId) {
 		return groupIdChannelGroupMap.get(groupId);
 	}
 }
