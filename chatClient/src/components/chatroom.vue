@@ -251,7 +251,7 @@ computed: {
       let response = {}
 
       response.id = this.response.id++
-      response.state = 2
+      response.state = 10
       response.message = info.message
       response.userName = info.fromUser.userName
       response.date = info.date

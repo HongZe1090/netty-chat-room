@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
   // 群聊私聊消息 0 为群聊，1 为私聊
   // 私聊的具体成员在chatroom组件中存储，每次新建群组都会获取
+  // 全部群组的消息在list组件中
   currentState:{
     toId:null,
     type:'',
