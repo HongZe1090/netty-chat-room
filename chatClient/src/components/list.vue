@@ -91,7 +91,7 @@ export default {
     },
     beignGroupChat(group){
         this.$store.dispatch("chooseAccept",{
-        type:0,
+        type:9,
         toId:group.groupId,
         userName:group.groupName,
         image:group.image,
