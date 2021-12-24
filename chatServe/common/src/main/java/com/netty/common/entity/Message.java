@@ -1,7 +1,7 @@
 package com.netty.common.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * @创建人 HongZe
@@ -20,8 +20,27 @@ public class Message implements Serializable {
     // 消息内容
     private String infoContent;
 
-    // 消息类型
-    private String type;
+    // 消息类型 在线或离线
+    private Boolean online;
+
+    // 消息状态 群聊或私聊 1为私聊 0为群聊
+    private Boolean singleMessage;
+
+    public Boolean getOnline() {
+        return online;
+    }
+
+    public void setOnline(Boolean online) {
+        this.online = online;
+    }
+
+    public Boolean getSingleMessage() {
+        return singleMessage;
+    }
+
+    public void setSingleMessage(Boolean singleMessage) {
+        this.singleMessage = singleMessage;
+    }
 
     //发送时间
     private Date time;
@@ -52,14 +71,6 @@ public class Message implements Serializable {
 
     public void setInfoContent(String infoContent) {
         this.infoContent = infoContent;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Date getTime() {

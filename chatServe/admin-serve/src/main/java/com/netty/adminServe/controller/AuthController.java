@@ -30,7 +30,6 @@ public class AuthController {
     @PostMapping("/login")
     @Log(title = "auth",businessType = BusinessType.LOGIN,operatorType = OperatorType.USER)
     public Object login(@RequestBody AuthBody authBody) {
-        System.out.println(authBody.getUserName());
         return authService.login(authBody);
     }
 

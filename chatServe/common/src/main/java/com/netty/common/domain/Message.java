@@ -21,7 +21,7 @@ public class Message {
     // 消息类型 在线或离线
     private String type;
 
-    // 消息状态 在线或离线 1为在线 0为离线
+    // 消息状态 在线或离线 1为私聊 0为群聊
     private Boolean state;
 
     //发送时间

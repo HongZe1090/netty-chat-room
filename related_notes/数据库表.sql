@@ -41,3 +41,18 @@ create table Log
     PRIMARY KEY(id)
 )
 ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 comment='日志表';
+
+-- 消息表
+create table Message
+(
+    id int auto_increment comment '自增，log的id',
+    fromId int comment '消息发送方id',
+    toId int comment '消息接收方id',
+    infoContent varchar(30) comment '消息内容',
+    online boolean comment '是否在线，1在线，0离线' default 1,
+    singleMessage boolean comment '死否私聊消息，1私聊，0群聊' default 1,
+    sendTime date comment '发送时间',
+    PRIMARY KEY(id)
+)
+ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 comment='消息表';
+
