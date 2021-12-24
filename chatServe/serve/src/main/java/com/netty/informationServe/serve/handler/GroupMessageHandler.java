@@ -1,6 +1,9 @@
 package com.netty.informationServe.serve.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.netty.common.config.MQUtils;
+import com.netty.common.constants.Topic;
+import com.netty.common.domain.Message;
 import com.netty.common.domain.User;
 import com.netty.informationServe.protocol.packet.GroupMessagePacket;
 import com.netty.informationServe.utils.SessionUtils;
@@ -11,11 +14,13 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +31,9 @@ import java.util.List;
 @Service
 @ChannelHandler.Sharable
 public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessagePacket> {
+    @Autowired
+    MQUtils mqUtils;
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, GroupMessagePacket groupMessagePacket) throws Exception {
         Integer groupId = groupMessagePacket.getToGroupId();
@@ -38,6 +46,9 @@ public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessag
             // 用户名是否可以不回传？？
             nameList.add(user.getUserName());
         }
+
+        sendMessage(channelHandlerContext,groupMessagePacket.getMessage(),groupId,Topic.OnLine,false);
+
         if (channelGroup != null) {
             User user = SessionUtils.getUser(channelHandlerContext.channel());
             ByteBuf byteBuf = getByteBuf(channelHandlerContext, groupId, groupMessagePacket.getMessage(), user, fileType, nameList);
@@ -64,5 +75,17 @@ public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessag
         byte []bytes = data.toJSONString().getBytes(Charset.forName("utf-8"));
         byteBuf.writeBytes(bytes);
         return byteBuf;
+    }
+
+    public void sendMessage(ChannelHandlerContext ctx, String message, Integer toId, String state, Boolean type) {
+        Message messageMQ = new Message();
+        messageMQ.setFromId(SessionUtils.getUser(ctx.channel()).getUserId());
+        messageMQ.setToId(toId);
+        messageMQ.setType(state);
+        messageMQ.setInfoContent(message);
+        messageMQ.setTime(new Date());
+        messageMQ.setState(type);
+
+        mqUtils.MessageSend(Topic.OnLineTopic,messageMQ);
     }
 }

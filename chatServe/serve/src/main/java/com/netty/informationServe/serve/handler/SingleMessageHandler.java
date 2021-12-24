@@ -32,14 +32,18 @@ public class SingleMessageHandler extends SimpleChannelInboundHandler<SingleMess
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, SingleMessagePacket singleMessagePacket) throws Exception {
-// TODO Auto-generated method stub
+// TODO Auto-generated method stu
+//        onLine标志字符为下面使用那个消息队列标志
+        Boolean onLine;
         String message = "";
         Channel toUserChannel = SessionUtils.getChannel(singleMessagePacket.getToUserId());
         System.out.println(SessionUtils.userIdChannelMap);
         if (toUserChannel != null && SessionUtils.hasLogin(toUserChannel)) {
             message = singleMessagePacket.getMessage();
+            sendMessage(channelHandlerContext,message, singleMessagePacket.getToUserId(), Topic.OnLine,true);
         } else {
-            message = "当前用户："+singleMessagePacket.getToUserId()+"不在线！";
+            message = singleMessagePacket.getMessage();
+            sendMessage(channelHandlerContext,message, singleMessagePacket.getToUserId(), Topic.OffLine,true);
             System.err.println(message);
         }
         User toUser = SessionUtils.getUser(toUserChannel);
@@ -49,8 +53,6 @@ public class SingleMessageHandler extends SimpleChannelInboundHandler<SingleMess
         toUserChannel.writeAndFlush(new TextWebSocketFrame(buf));
 
         System.out.println(singleMessagePacket.getToUserId() + "发送了消息给" + singleMessagePacket.getToUserId() + "：" + singleMessagePacket.getMessage());
-
-        sendMessage(channelHandlerContext,message, toUser);
     }
 
     public ByteBuf getByteBuf(ChannelHandlerContext ctx, String message, User toUser, String fileType) {
@@ -70,13 +72,14 @@ public class SingleMessageHandler extends SimpleChannelInboundHandler<SingleMess
         return byteBuf;
     }
 
-    public void sendMessage(ChannelHandlerContext ctx, String message, User toUser) {
+    public void sendMessage(ChannelHandlerContext ctx, String message, Integer toUser, String state, Boolean type) {
         Message messageMQ = new Message();
         messageMQ.setFromId(SessionUtils.getUser(ctx.channel()).getUserId());
-        messageMQ.setToId(toUser.getUserId());
-        messageMQ.setType(Topic.OnLine);
+        messageMQ.setToId(toUser);
+        messageMQ.setType(state);
         messageMQ.setInfoContent(message);
         messageMQ.setTime(new Date());
+        messageMQ.setState(type);
 
         mqUtils.MessageSend(Topic.OnLineTopic,messageMQ);
     }

@@ -18,11 +18,22 @@ public class Message {
     // 消息内容
     private String infoContent;
 
-    // 消息类型
+    // 消息类型 在线或离线
     private String type;
+
+    // 消息状态 在线或离线 1为在线 0为离线
+    private Boolean state;
 
     //发送时间
     private Date time;
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
+    }
 
     public Integer getFromId() {
         return fromId;

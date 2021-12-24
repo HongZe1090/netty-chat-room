@@ -22,7 +22,7 @@ public class Topic {
     public static final String OnLineTopic = "NettyInfo";
 
     /**
-     * 离线消息Topic
+     * 离线消息Topic 后台放弃使用，没有必要
      */
     public static final String OffLineTopic = "NettyOfflineInfo";
 

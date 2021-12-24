@@ -30,7 +30,6 @@ public class LogConsumer implements RocketMQListener<Object> {
     public void onMessage(Object logInfo) {
         System.out.println(logInfo);
         LogInfo info =  JSON.parseObject((String) logInfo, LogInfo.class);
-//
         logService.insertLog(info);
         System.out.println("received message is {}" + info.getClass().getName());
 
