@@ -86,9 +86,7 @@ computed: {
   watch:{
     currentSta:{
       handler(newVal, objVal) {
-      console.log(newVal)
       this.creatGroup()
-      console.log("发送什么市区了")
       },
     }
   },
@@ -107,17 +105,18 @@ computed: {
       };
     },
     send() {
-      // 如果是群聊，绑定通信端传回的新id
-      let thisMes
+      // 群聊私聊消息的发送，这里只是消息的发送，创建的消息发送在GreatGroup下
+      // 因为这里的groupid使用的是本组件下的，需要进行判断
+      let thisId
       if(this.currentSta.type == 9)
-      thisMes = this.groupId
+      thisId = this.groupId
       else
-      thisMes = this.currentSta.type
+      thisId = this.currentSta.toId
 
       let data = {
       type:this.currentSta.type,
       params:{
-        toMessageId:thisMes,
+        toMessageId:thisId,
         message:this.inputArea,
         fileType:0
         }
@@ -274,8 +273,7 @@ computed: {
       this.curreGroup = null
     },
     creatGroup(){
-    console.log("这里走了已经")
-    console.log(this.currentSta.type)
+      console.log("后端要创建新的群组啦...")
     if(this.currentSta.type == 9) {
       // 通知创建channel群组
       let data = {

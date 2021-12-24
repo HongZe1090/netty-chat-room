@@ -47,9 +47,7 @@ public class GreatGroupHandler extends SimpleChannelInboundHandler<CreateGroupPa
                 System.out.println("这里是处理类哦"+nameList);
             }
         }
-        System.out.println("这里时前"+channelGroup);
-        System.out.println(nameList);
-        System.out.println(channelGroup);
+
         Random r = new Random(1);
         Integer groupId = r.nextInt(100);
         System.out.println(groupId);
