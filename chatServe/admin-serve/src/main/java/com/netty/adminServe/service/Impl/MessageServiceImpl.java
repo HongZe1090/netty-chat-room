@@ -1,5 +1,6 @@
 package com.netty.adminServe.service.Impl;
 
+import cn.hutool.core.date.DateTime;
 import com.netty.adminServe.dao.MessageMapper;
 import com.netty.adminServe.service.MessageService;
 import com.netty.common.constants.Topic;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @创建人 HongZe
@@ -31,10 +33,16 @@ public class MessageServiceImpl implements MessageService {
         else
             message.setOnline(false);
         message.setSingleMessage(Omessage.getState());
-        message.setTime(new Date());
+//        message.setTime(new DateTime());
 
         System.out.println(message);
 
         messageMapper.insertInfo(message);
+    }
+
+    @Override
+    public List<com.netty.common.entity.Message> getAllInfo() {
+        System.out.println("这里是时间哦..."+messageMapper.getAllInfo().get(1).getTime());
+        return messageMapper.getAllInfo();
     }
 }

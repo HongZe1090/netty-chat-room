@@ -1,5 +1,6 @@
 package com.netty.log.aspect;
 
+import cn.hutool.core.date.DateTime;
 import com.netty.common.config.MQUtils;
 import com.netty.common.constants.Topic;
 import com.netty.common.entity.LogInfo;
@@ -54,7 +55,7 @@ public class LogAspect {
         LogInfo loginInfo = new LogInfo();
         loginInfo.setOperIp(request.getRemoteAddr());
         loginInfo.setOperUrl(request.getRequestURI());
-        loginInfo.setOperTime(new Date());
+        loginInfo.setOperTime(new DateTime());
         loginInfo.setOperStatus(BusinessStatus.SUCCESS.ordinal());
         loginInfo.setBusinessType(annotation.businessType());
         loginInfo.setTitle(annotation.title());

@@ -1,5 +1,6 @@
 package com.netty.informationServe.serve.handler;
 
+import cn.hutool.core.date.DateTime;
 import com.alibaba.fastjson.JSONObject;
 import com.netty.common.config.MQUtils;
 import com.netty.common.constants.Topic;
@@ -83,7 +84,7 @@ public class GroupMessageHandler extends SimpleChannelInboundHandler<GroupMessag
         messageMQ.setToId(toId);
         messageMQ.setType(state);
         messageMQ.setInfoContent(message);
-        messageMQ.setTime(new Date());
+        messageMQ.setTime(new DateTime().toString());
         messageMQ.setState(type);
 
         mqUtils.MessageSend(Topic.OnLineTopic,messageMQ);

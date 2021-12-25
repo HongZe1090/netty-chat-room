@@ -1,6 +1,7 @@
 package com.netty.informationServe.serve.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import cn.hutool.core.date.DateTime;
 import com.netty.common.constants.Topic;
 import com.netty.common.domain.Message;
 import com.netty.common.domain.User;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
-import java.util.Date;
 
 /**
  * @创建人 HongZe
@@ -78,7 +78,7 @@ public class SingleMessageHandler extends SimpleChannelInboundHandler<SingleMess
         messageMQ.setToId(toUser);
         messageMQ.setType(state);
         messageMQ.setInfoContent(message);
-        messageMQ.setTime(new Date());
+        messageMQ.setTime(new DateTime().toString());
         messageMQ.setState(type);
 
         mqUtils.MessageSend(Topic.OnLineTopic,messageMQ);

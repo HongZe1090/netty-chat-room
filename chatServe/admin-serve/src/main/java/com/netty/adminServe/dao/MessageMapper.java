@@ -4,6 +4,8 @@ import com.netty.common.entity.LogInfo;
 import com.netty.common.entity.Message;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @创建人 HongZe
  * @创建时间 2021/12/24
@@ -18,4 +20,11 @@ public interface MessageMapper {
 
      */
     public boolean insertInfo(Message insertInfo);
+    /**
+
+     *@描述 获取所有的日志消息
+
+     */
+
+    public List<Message> getAllInfo();
 }

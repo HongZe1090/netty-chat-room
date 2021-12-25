@@ -1,3 +1,4 @@
+import cn.hutool.core.date.DateTime;
 import com.netty.adminServe.AdminServeApplication;
 import com.netty.adminServe.dao.LogMapper;
 import com.netty.adminServe.dao.MessageMapper;
@@ -22,13 +23,17 @@ public class Test {
     public void name(){
         Message message = new Message();
         message.setSingleMessage(true);
-        message.setTime(new Date());
+        DateTime time = new DateTime();
+        System.out.println(time.toString());
         message.setOnline(true);
         message.setToId(1);
         message.setFromId(2);
         message.setInfoContent("4564");
+        message.setTime(time.toString());
         System.out.println(logMapper.insertInfo(message));
+        System.out.println(logMapper.getAllInfo().get(1).getFromId());
+        System.out.println(logMapper.getAllInfo().get(1).getToId());
+        System.out.println(logMapper.getAllInfo().get(1).getInfoContent());
+        System.out.println(logMapper.getAllInfo().get(1).getTime());
     }
-
-
 }

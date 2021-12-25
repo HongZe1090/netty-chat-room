@@ -3,6 +3,8 @@ package com.netty.adminServe.service;
 import com.netty.common.domain.Message;
 import com.netty.common.entity.LogInfo;
 
+import java.util.List;
+
 /**
  * @创建人 HongZe
  * @创建时间 2021/12/24
@@ -15,4 +17,11 @@ public interface MessageService {
 
      */
     public void insertInfo(Message Omessage);
+
+    /**
+
+     *@描述 获得所有的消息记录
+
+     */
+    public List<com.netty.common.entity.Message> getAllInfo();
 }

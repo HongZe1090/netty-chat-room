@@ -1,7 +1,7 @@
 package com.netty.common.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * @创建人 HongZe
@@ -25,7 +25,7 @@ public class Message {
     private Boolean state;
 
     //发送时间
-    private Date time;
+    private String time;
 
     public Boolean getState() {
         return state;
@@ -67,11 +67,11 @@ public class Message {
         this.type = type;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

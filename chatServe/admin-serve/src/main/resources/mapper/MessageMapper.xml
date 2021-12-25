@@ -2,9 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.netty.adminServe.dao.MessageMapper">
 
+    <resultMap type="com.netty.common.entity.Message" id="message">
+        <result column="fromId" property="fromId"/>
+        <result column="toId" property="toId"/>
+        <result column="infoContent" property="infoContent"/>
+        <result column="online" property="online"/>
+        <result column="singleMessage" property="singleMessage"/>
+        <result column="sendTime" property="time"/>
+    </resultMap>
+
     <insert id="insertInfo" parameterType="com.netty.common.entity.Message">
         insert into Message(fromId,toId,infoContent,online,singleMessage,sendTime) values
         (#{fromId},#{toId},#{infoContent},#{online},#{singleMessage},#{time})
     </insert>
+
+    <select id="getAllInfo" resultMap="message">
+        select fromId,toId,infoContent,online,singleMessage,sendTime from Message
+    </select>
 
 </mapper>

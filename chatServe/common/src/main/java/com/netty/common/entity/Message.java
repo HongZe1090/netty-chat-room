@@ -1,7 +1,7 @@
 package com.netty.common.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * @创建人 HongZe
@@ -43,7 +43,7 @@ public class Message implements Serializable {
     }
 
     //发送时间
-    private Date time;
+    private String time;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -73,11 +73,11 @@ public class Message implements Serializable {
         this.infoContent = infoContent;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }
