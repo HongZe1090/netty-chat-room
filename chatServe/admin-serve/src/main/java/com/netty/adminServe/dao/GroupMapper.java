@@ -1,7 +1,6 @@
 package com.netty.adminServe.dao;
 
 import com.netty.common.entity.Group;
-import com.netty.common.entity.GroupMember;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public interface GroupMapper {
      *@描述 根据用户id获得小组信息
 
      */
-    List<Group> getGroup(Integer id);
+    Group getGroup(Integer id);
 
     /**
 

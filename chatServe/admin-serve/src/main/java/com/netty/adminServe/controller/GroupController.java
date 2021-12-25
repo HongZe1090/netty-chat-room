@@ -1,6 +1,7 @@
 package com.netty.adminServe.controller;
 
 import com.netty.adminServe.service.FriendService;
+import com.netty.adminServe.service.GroupService;
 import com.netty.common.model.base.RestMsg;
 import com.netty.log.annotation.Log;
 import com.netty.log.constants.BusinessType;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/group")
 public class GroupController {
     @Autowired
-    FriendService friendService;
+    GroupService groupService;
 
     /**
 
@@ -27,9 +28,18 @@ public class GroupController {
      */
     @PostMapping("/getGroup")
     @Log(title = "getGroup",businessType = BusinessType.OTHER,operatorType = OperatorType.USER)
-    public Object getAllFriends(@RequestParam Integer userId) {
-        System.out.println(userId);
-//        return "success";
-        return RestMsg.ok(friendService.getUserFriends(userId));
+    public Object getGroup(@RequestParam Integer userId) {
+        return RestMsg.ok(groupService.getGroup(userId));
+    }
+
+    /**
+
+     *@描述 获取所有群组列表
+
+     */
+    @GetMapping("/getAllGroup")
+    @Log(title = "getAllGroup",businessType = BusinessType.OTHER,operatorType = OperatorType.USER)
+    public Object getAllGroup() {
+        return RestMsg.ok(groupService.getAllGroup());
     }
 }
