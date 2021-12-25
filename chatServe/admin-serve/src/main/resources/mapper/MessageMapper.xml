@@ -20,4 +20,8 @@
         select fromId,toId,infoContent,online,singleMessage,sendTime from Message
     </select>
 
+    <select id="getMessage" resultMap="message">
+        select fromId,toId,infoContent,online,singleMessage,sendTime from Message where fromId =  #{arg0} and toId = #{arg1}
+    </select>
+
 </mapper>

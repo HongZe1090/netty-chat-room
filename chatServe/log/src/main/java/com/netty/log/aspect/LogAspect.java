@@ -55,7 +55,7 @@ public class LogAspect {
         LogInfo loginInfo = new LogInfo();
         loginInfo.setOperIp(request.getRemoteAddr());
         loginInfo.setOperUrl(request.getRequestURI());
-        loginInfo.setOperTime(new DateTime());
+        loginInfo.setOperTime(new DateTime().toString());
         loginInfo.setOperStatus(BusinessStatus.SUCCESS.ordinal());
         loginInfo.setBusinessType(annotation.businessType());
         loginInfo.setTitle(annotation.title());

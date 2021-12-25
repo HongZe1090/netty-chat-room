@@ -7,10 +7,7 @@ import com.netty.log.annotation.Log;
 import com.netty.log.constants.BusinessType;
 import com.netty.log.constants.OperatorType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @创建人 HongZe
@@ -28,6 +25,13 @@ public class MessageController {
     @Log(title = "getAllMessage",businessType = BusinessType.OTHER,operatorType = OperatorType.ADMIN)
     public Object getAllMessage() {
         return RestMsg.ok(messageService.getAllInfo());
+    }
+
+    @GetMapping("/getInfo")
+    @Log(title = "getMessage",businessType = BusinessType.OTHER,operatorType = OperatorType.ADMIN)
+    public Object getMessage(@RequestParam Integer from, @RequestParam Integer toId) {
+        System.out.println(from);
+        return RestMsg.ok(messageService.getMessage(from,toId));
     }
 
 }

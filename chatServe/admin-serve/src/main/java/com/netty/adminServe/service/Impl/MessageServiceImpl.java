@@ -33,16 +33,18 @@ public class MessageServiceImpl implements MessageService {
         else
             message.setOnline(false);
         message.setSingleMessage(Omessage.getState());
-//        message.setTime(new DateTime());
-
-        System.out.println(message);
+        message.setTime(new DateTime().toString());
 
         messageMapper.insertInfo(message);
     }
 
     @Override
     public List<com.netty.common.entity.Message> getAllInfo() {
-        System.out.println("这里是时间哦..."+messageMapper.getAllInfo().get(1).getTime());
-        return messageMapper.getAllInfo();
+    return messageMapper.getAllInfo();
+    }
+
+    @Override
+    public List<com.netty.common.entity.Message> getMessage(Integer fromId, Integer toId) {
+        return messageMapper.getMessage(fromId,toId);
     }
 }

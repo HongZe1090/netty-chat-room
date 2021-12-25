@@ -25,6 +25,5 @@ public interface LogService {
      *@描述 获取所有的日志消息
 
      */
-
     public List<LogInfo> getAllLog();
 }

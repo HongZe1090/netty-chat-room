@@ -24,4 +24,11 @@ public interface MessageService {
 
      */
     public List<com.netty.common.entity.Message> getAllInfo();
+
+    /**
+
+     *@描述 根据用户id与获取用户
+
+     */
+    public List<com.netty.common.entity.Message> getMessage(Integer fromId,Integer toId);
 }

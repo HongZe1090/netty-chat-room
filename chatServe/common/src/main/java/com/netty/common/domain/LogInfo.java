@@ -33,7 +33,7 @@ public class LogInfo {
     private Integer operStatus;
 
     /** 操作时间 */
-    private Date operTime;
+    private String operTime;
 
     public Integer getOperStatus() {
         return operStatus;
@@ -43,11 +43,11 @@ public class LogInfo {
         this.operStatus = operStatus;
     }
 
-    public Date getOperTime() {
+    public String getOperTime() {
         return operTime;
     }
 
-    public void setOperTime(Date operTime) {
+    public void setOperTime(String operTime) {
         this.operTime = operTime;
     }
 
