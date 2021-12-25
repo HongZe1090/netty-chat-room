@@ -56,3 +56,21 @@ create table Message
 )
 ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 comment='消息表';
 
+create table group
+(   groupId int auto_increment comment '自增，群组id' primary key,
+    groupName varchar(20) null comment '群组名',
+    image    varchar(20) null comment '头像路径',
+    description varchar(30) null comment '用户描述',
+    admin int comment '创建人用户id'
+)
+    ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10001 comment='群组';
+
+-- 好友关系表
+create table GroupRelation
+(
+    relation   int auto_increment comment '自增，关系id',
+    groupId   int comment '组号',
+    memberId   int comment '组员号',
+    PRIMARY KEY(relation)
+)
+    ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 comment='好友关系表';

@@ -1,5 +1,6 @@
 import cn.hutool.core.date.DateTime;
 import com.netty.adminServe.AdminServeApplication;
+import com.netty.adminServe.dao.GroupMapper;
 import com.netty.adminServe.dao.LogMapper;
 import com.netty.adminServe.dao.MessageMapper;
 import com.netty.common.entity.LogInfo;
@@ -17,14 +18,10 @@ import java.util.Date;
 @SpringBootTest(classes = AdminServeApplication.class)
 public class Test {
     @Autowired
-    MessageMapper logMapper;
+    GroupMapper logMapper;
 
     @org.junit.jupiter.api.Test
     public void name(){
-        logMapper.getMessage(2,1);
-        System.out.println(logMapper.getAllInfo().get(1).getFromId());
-        System.out.println(logMapper.getAllInfo().get(1).getToId());
-        System.out.println(logMapper.getAllInfo().get(1).getInfoContent());
-        System.out.println(logMapper.getAllInfo().get(1).getTime());
+        System.out.println(logMapper.addMember(5,4));
     }
 }

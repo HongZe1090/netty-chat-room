@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netty.adminServe.dao.GroupMapper">
+
+    <insert id="addMember">
+        insert into GroupRelation(groupId,member_id) values
+        (#{arg0},#{arg1})
+    </insert>
+
+    <insert id="createGroup"  parameterType="com.netty.common.entity.Group">
+        insert into group_table(groupId,groupName,image,description,admin) values
+            (#{groupId},#{groupName},#{image},#{description},#{admin})
+    </insert>
+
+    <select id="getGroup" resultType="com.netty.common.entity.Group">
+        select * from group_table where groupId = #{id}
+    </select>
+
+    <select id="getAllGroup" resultType="com.netty.common.entity.Group">
+        select * from group_table
+    </select>
+
+    <select id="getAllMember" resultType="Integer">
+        select member_id from GroupRelation where groupId = #{id}
+    </select>
+
+    <select id="getGroupId" resultType="Integer">
+        select groupId from GroupRelation where member_id = #{id}
+    </select>
+
+</mapper>
