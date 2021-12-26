@@ -280,6 +280,7 @@ export default {
       console.log("后端要创建新的群组啦...");
       if (this.currentSta.type == 9) {
         // 通知创建channel群组
+        console.log(this.currentSta.members);
         let data = {
           type: 3,
           params: {
@@ -332,8 +333,6 @@ export default {
 
             that.resList.push(tem_info);
           }
-          console.log(data);
-          console.log(that.resList);
         });
     },
   },

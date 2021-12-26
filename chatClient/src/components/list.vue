@@ -62,6 +62,7 @@ export default {
         image: "",
         description: "",
         members: "",
+        admin: null,
       },
       friends: [],
       groups: [],
@@ -86,15 +87,34 @@ export default {
         }
       });
 
-    this.groups.push({
-      groupId: 1,
-      groupName: "hhhh",
-      image: null,
-      description: "this is testing",
-      members: "1,2,3,",
-    });
+    request
+      .postUrl("http://121.36.199.215:8081/group/getGroup", {
+        userId: id,
+      })
+      .then(function (result) {
+        for (let i of result.data) {
+          let group = {};
+          group.groupId = i.groupId;
+          group.description = i.description;
+          group.groupName = i.groupName;
+          group.image =
+            "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png";
+          group.members = that.getString(i.memberId);
+          group.admin = i.admin;
+
+          that.groups.push(group);
+        }
+      });
   },
   methods: {
+    // 拼接字符串，与后端一致
+    getString(objects) {
+      let string = "";
+      for (let i of objects) {
+        string += i + ",";
+      }
+      return string;
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
