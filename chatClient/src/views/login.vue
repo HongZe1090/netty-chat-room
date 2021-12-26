@@ -65,7 +65,7 @@ export default {
           userName: that.userName,
           password: that.password,
       }
-      request.postUrlContentType("http://localhost:8081/auth/login", loginParam).then(function(data) {
+      request.postUrlContentType("http://121.36.199.215:8081/auth/login", loginParam).then(function(data) {
           console.log(data)
       if(data.code == 200 ){
               that.$notify({

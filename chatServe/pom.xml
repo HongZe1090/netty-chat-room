@@ -6,6 +6,7 @@
     <artifactId>chatServe</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
+
     <modules>
         <module>common</module>
         <module>serve</module>
@@ -16,6 +17,9 @@
     <description>chatServe Based on Netty</description>
 
     <properties>
+            <java.version>11</java.version>
+            <!-- 编译时的编码 -->
+            <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <spring.boot.version>2.3.7.RELEASE</spring.boot.version>

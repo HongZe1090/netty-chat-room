@@ -16,7 +16,12 @@
           <span>好友</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item :key="friend.userId" v-for="friend in friends" @click="beignChat(friend)">{{friend.userName}}</el-menu-item>
+          <el-menu-item
+            :key="friend.userId"
+            v-for="friend in friends"
+            @click="beignChat(friend)"
+            >{{ friend.userName }}</el-menu-item
+          >
         </el-menu-item-group>
       </el-submenu>
 
@@ -26,7 +31,12 @@
           <span>群组</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item :key="gro.groupId" v-for="gro in groups" @click="beignGroupChat(gro)">{{gro.groupName}}</el-menu-item>
+          <el-menu-item
+            :key="gro.groupId"
+            v-for="gro in groups"
+            @click="beignGroupChat(gro)"
+            >{{ gro.groupName }}</el-menu-item
+          >
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -34,71 +44,81 @@
 </template>
 
 <script>
-import * as request from "@/utils/request"
+import * as request from "@/utils/request";
 export default {
   name: "list",
   data() {
     return {
-      friend:{
-          userId:'',
-          userName:'',
-          sex:'',
-          image:'',
-          description:''
+      friend: {
+        userId: "",
+        userName: "",
+        sex: "",
+        image: "",
+        description: "",
       },
-      group:{
-          groupId:'',
-          groupName:'',
-          image:'',
-          description:'',
-          members:''
+      group: {
+        groupId: "",
+        groupName: "",
+        image: "",
+        description: "",
+        members: "",
       },
-      friends:[],
-      groups:[],
-      currentState:{
-          toId:'',
-          type:''
-      }
+      friends: [],
+      groups: [],
+      currentState: {
+        toId: "",
+        type: "",
+      },
     };
   },
-  created(){
-  },
-  mounted(){
-    let that = this
-    let id = that.$store.state.myInfo.userId
-    request.postUrl("http://localhost:8081/userFriend/getAllFriends",{userId:id}).then(function(result) {
-                        for(let i of result.data){
-                          that.friend = i
-                          that.friends.push(that.friend)
-                        }
-                   })
-    this.groups.push({groupId:1,groupName:'hhhh',image:null,description:'this is testing',members:'1,2,3,'})
+  created() {},
+  mounted() {
+    let that = this;
+    let id = that.$store.state.myInfo.userId;
+    request
+      .postUrl("http://121.36.199.215:8081/userFriend/getAllFriends", {
+        userId: id,
+      })
+      .then(function (result) {
+        for (let i of result.data) {
+          that.friend = i;
+          that.friends.push(that.friend);
+        }
+      });
+
+    this.groups.push({
+      groupId: 1,
+      groupName: "hhhh",
+      image: null,
+      description: "this is testing",
+      members: "1,2,3,",
+    });
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath)
+      console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath)
+      console.log(key, keyPath);
     },
-    beignChat(friend){
-      this.$store.dispatch("chooseAccept",{
-        toId:friend.userId,
-        type:1,
-        userName:friend.userName,
-        image:friend.image
-      })
+    beignChat(friend) {
+      this.$store.dispatch("chooseAccept", {
+        toId: friend.userId,
+        type: 1,
+        userName: friend.userName,
+        image: friend.image,
+      });
     },
-    beignGroupChat(group){
-        this.$store.dispatch("chooseAccept",{
-        type:9,
-        toId:group.groupId,
-        userName:group.groupName,
-        image:group.image,
-        description:group.description,
-        members:group.members
-      })
-    }
+    beignGroupChat(group) {
+      this.$store.dispatch("chooseAccept", {
+        type: 9,
+        toId: group.groupId,
+        userName: group.groupName,
+        image: group.image,
+        description: group.description,
+        members: group.members,
+      });
+    },
   },
 };
 </script>

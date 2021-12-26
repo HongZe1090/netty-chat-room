@@ -5,15 +5,18 @@ import { Notification } from 'element-ui';
  * @param {*} url 
  * @param {*} paramsObj 
  */
-export function getJSON(url, paramsObj, token) {
+export function getJSON(url, paramsObj) {
     return new Promise((resolve, reject) => {
-        axios.get(url, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                "Authorization":'bearer '+ token  //token换成从缓存获取
-            },
+        axios.get(
+            url,
+            // headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded',
+            //     "Authorization":'bearer '+ token  //token换成从缓存获取
+            // },
+            {
             params: paramsObj
-        }).then((res) => {
+        }
+        ).then((res) => {
             resolve(res)
         }).catch((e) => {
             reject(e)
@@ -48,7 +51,6 @@ export function postJSON(url, paramsObj) {
 
 export function postUrl(url, paramsObj) {
     return new Promise((resolve, reject) => {
-        console.log("这个方法走了")
         axios({
             method: 'post',
             url: url,

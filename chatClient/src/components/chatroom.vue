@@ -1,9 +1,8 @@
 <template>
-
   <div>
     <el-row>
       <el-col :span="1"><el-avatar :size="45" :src="circleUrl" /></el-col>
-      <el-col :span="1.5" class="Name">{{currentSta.userName}}</el-col>
+      <el-col :span="1.5" class="Name">{{ currentSta.userName }}</el-col>
     </el-row>
 
     <el-divider></el-divider>
@@ -12,7 +11,12 @@
       <ul class="chat">
         <li class="inline" :key="res.id" v-for="res in resList">
           <el-avatar :size="40" :src="circleUrl" />
-          <span class="chat-message chat-text">{{res.message}}</span>
+          <span class="chat-message chat-text"
+            >{{ res.userName }}:{{ res.message }}</span
+          >
+          <span v-if="res.online == false"
+            >{{ res.date }}这是一条离线消息哦</span
+          >
         </li>
       </ul>
     </el-row>
@@ -33,10 +37,9 @@
         <el-row>
           <el-col>
             <el-row>
-            <el-avatar class="myself" :size="50" :src="circleUrl"
-          /></el-row>
-          <el-row>{{myInfo.userName}}
-          </el-row>
+              <el-avatar class="myself" :size="50" :src="circleUrl"
+            /></el-row>
+            <el-row>{{ myInfo.userName }} </el-row>
           </el-col>
         </el-row>
         <el-row>
@@ -49,8 +52,9 @@
 </template>
 
 <script>
-import "@/css/chatRoom.less"
-import { mapState } from 'vuex'
+import "@/css/chatRoom.less";
+import * as request from "@/utils/request";
+import { mapState } from "vuex";
 export default {
   name: "chatPart",
   data() {
@@ -59,39 +63,42 @@ export default {
       // 发送的输入内容
       inputArea: "",
       // 收到的信息 但是多次使用同一个对象储存类会造成数组元素刷新的问题，所以这里其实只有id用了
+      // 0 自己的消息 2 对方的私聊消息 10 群聊消息
       response: {
-        id:0,
-        state:null,
-        userName:null,
-        message:null,
-        date:null,
-        image:null
+        id: 0,
+        state: null,
+        userName: null,
+        message: null,
+        date: null,
+        image: null,
+        online: true,
       },
       // 通信端返回的通信groupid，每次点击或新用户上线都会新建，可否优化？？在前端获取之前的groupid
-      newGroupId:'',
-      curreGroup:{},
-      resList:[],
+      newGroupId: "",
+      curreGroup: {},
+      resList: [],
       circleUrl:
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-    }
+    };
   },
-computed: {
+  computed: {
     ...mapState({
       // 当前用户信息
-      myInfo:"myInfo",
+      myInfo: "myInfo",
       // 对话对象
-      currentSta:"currentState",
+      currentSta: "currentState",
     }),
   },
-  watch:{
-    currentSta:{
+  watch: {
+    currentSta: {
       handler(newVal, objVal) {
-      this.creatGroup()
+        this.creatGroup();
+        this.pullHistory();
       },
-    }
+    },
   },
   mounted() {
-    this.getSocket()
+    this.getSocket();
   },
   methods: {
     // 连接关闭的回调函数
@@ -107,23 +114,20 @@ computed: {
     send() {
       // 群聊私聊消息的发送，这里只是消息的发送，创建的消息发送在GreatGroup下
       // 因为这里的groupid使用的是本组件下的，需要进行判断
-      let thisId
-      if(this.currentSta.type == 9)
-      thisId = this.groupId
-      else
-      thisId = this.currentSta.toId
+      let thisId;
+      if (this.currentSta.type == 9) thisId = this.groupId;
+      else thisId = this.currentSta.toId;
 
       let data = {
-      type:this.currentSta.type,
-      params:{
-        toMessageId:thisId,
-        message:this.inputArea,
-        fileType:0
-        }
-      }
+        type: this.currentSta.type,
+        params: {
+          toMessageId: thisId,
+          message: this.inputArea,
+          fileType: 0,
+        },
+      };
 
       this.socket.send(JSON.stringify(data));
-      
     },
     getSocket() {
       let socket;
@@ -135,56 +139,56 @@ computed: {
 
       if (window.WebSocket) {
         //建立连接
-        socket = new WebSocket("ws://localhost:8888/websocket")  
+        socket = new WebSocket("ws://121.36.199.215:8888/websocket");
 
         // 绑定事件
         socket.onmessage = function (event) {
           console.log(event.data);
-            // 这里把信息从json字符串转变成为了json对象了已经
-           let result = JSON.parse(event.data)
+          // 这里把信息从json字符串转变成为了json对象了已经
+          let result = JSON.parse(event.data);
 
-           if (result.status == 200) {
-             switch(result.type) {
-               //私聊群聊时会把发送的话返回
-               case 0:
-                 that.handleSelfResponse(result)
-                 break
-               case 2:
-                 that.handleSingleMessage(result)
-                 break
-               case 4:
-                 that.handleCreateChatResponse(result)
-                 break
-               case 10: //群聊消息接受 其实 也是适配单聊
-                 that.handleGroupMessageResponse(result);
-                 break;
-               case 12:
+          if (result.status == 200) {
+            switch (result.type) {
+              //私聊群聊时会把发送的话返回
+              case 0:
+                that.handleSelfResponse(result);
+                break;
+              case 2:
+                that.handleSingleMessage(result);
+                break;
+              case 4:
+                that.handleCreateChatResponse(result);
+                break;
+              case 10: //群聊消息接受 其实 也是适配单聊
+                that.handleGroupMessageResponse(result);
+                break;
+              case 12:
                 //  console.log("收到心跳检测回复")
-                 break;
-                 default:
-                 break;
+                break;
+              default:
+                break;
             }
           } else if (result.status == 404) {
             // 返回的请求码不为200
             that.$message({
               message: "发送失败 对方不在线",
               type: "warning",
-            })
-           }
-         }
+            });
+          }
+        };
         // socket连接
         socket.onopen = function (event) {
-          console.log(event)
+          console.log(event);
           that.$message({
             message: "找到通信服务器啦...",
             type: "success",
-          })
+          });
           if (!window.WebSocket) {
-          return
+            return;
           }
           // 注册当前用户信息
           if (socket.readyState == WebSocket.OPEN) {
-            console.log("这里数据可以发送啦...")
+            console.log("这里数据可以发送啦...");
             let data = {
               type: 7,
               params: {
@@ -199,7 +203,7 @@ computed: {
                 // 头像路径
                 image: that.myInfo.image,
               },
-            }
+            };
             socket.send(JSON.stringify(data));
           } else {
             that.$message({
@@ -207,86 +211,131 @@ computed: {
               type: "warning",
             });
           }
-        }
+        };
 
         //socket关闭
         socket.onclose = function (event) {
           that.$message({
-          message: "通信服务器又跑去种土豆啦...",
-          type: "warning",
-        })
-        }
+            message: "通信服务器又跑去种土豆啦...",
+            type: "warning",
+          });
+        };
       } else {
         that.$message({
           message: "出大问题，快换浏览器吧...",
           type: "warning",
-        })
+        });
       }
       this.socket = socket;
     },
-    handleSelfResponse(result){
-      let info = result.params
+    handleSelfResponse(result) {
+      let info = result.params;
 
-      let response = {}
+      let response = {};
 
-      response.id = this.response.id++
-      response.state = 0
-      response.message = info.message
-      response.userName = this.myInfo.userName
-      response.date = info.date
-     
-      this.resList.push(response)
+      response.id = this.response.id++;
+      response.state = 0;
+      response.message = info.message;
+      response.userName = this.myInfo.userName;
+      response.date = info.date;
+
+      this.resList.push(response);
     },
-    handleSingleMessage(result){
-      let info = result.params
+    handleSingleMessage(result) {
+      let info = result.params;
 
-      let response = {}
+      let response = {};
 
-      response.id = this.response.id++
-      response.state = 2
-      response.message = info.message
-      response.userName = info.fromUser.userName
-      response.date = info.date
+      response.id = this.response.id++;
+      response.state = 2;
+      response.message = info.message;
+      response.userName = info.fromUser.userName;
+      response.date = info.date;
 
-      this.resList.push(response)
-      
+      this.resList.push(response);
     },
-    handleGroupMessageResponse(result){
-      let info = result.params
+    handleGroupMessageResponse(result) {
+      let info = result.params;
 
-      let response = {}
+      let response = {};
 
-      response.id = this.response.id++
-      response.state = 10
-      response.message = info.message
-      response.userName = info.fromUser.userName
-      response.date = info.date
+      response.id = this.response.id++;
+      response.state = 10;
+      response.message = info.message;
+      response.userName = info.fromUser.userName;
+      response.date = info.date;
 
-      this.resList.push(response)
+      this.resList.push(response);
     },
-    handleCreateChatResponse(result){
+    handleCreateChatResponse(result) {
       this.$message({
-            message: "成功进入"+result.groupId+"聊天室啦...",
-            type: "success",
-      })
-      this.groupId = result.groupId
-      this.curreGroup = null
+        message: "成功进入" + result.groupId + "聊天室啦...",
+        type: "success",
+      });
+      this.groupId = result.groupId;
+      this.curreGroup = null;
     },
-    creatGroup(){
-      console.log("后端要创建新的群组啦...")
-    if(this.currentSta.type == 9) {
-      // 通知创建channel群组
-      let data = {
-      type:3,
-      params:{
-        userIdList:this.currentSta.members
-        }
+    // 当toId改变时，如果是群组则创建群组
+    creatGroup() {
+      console.log("后端要创建新的群组啦...");
+      if (this.currentSta.type == 9) {
+        // 通知创建channel群组
+        let data = {
+          type: 3,
+          params: {
+            userIdList: this.currentSta.members,
+          },
+        };
+        console.log(data);
+        this.socket.send(JSON.stringify(data));
       }
-      console.log(data)
-      this.socket.send(JSON.stringify(data));
-    }
-    }
+    },
+    // 当toId改变时，拉取历史消息
+    pullHistory() {
+      let that = this;
+      that.resList.length = 0;
+      request
+        .getJSON("http://121.36.199.215:8081/message/getInfo", {
+          from: that.myInfo.userId,
+          toId: that.currentSta.toId,
+        })
+        .then((result) => {
+          let data = result.data.data;
+          that.response.id = 0;
 
+          for (let i of data) {
+            that.response.id++;
+            let tem_info = {
+              id: null,
+              state: null,
+              userName: null,
+              message: null,
+              date: null,
+              image: null,
+              online: true,
+            };
+            tem_info.id = that.response.id;
+            if (i.fromId == that.myInfo.userId) {
+              tem_info.state = 0;
+              tem_info.userName = that.myInfo.userName;
+            } else if (i.fromId == that.currentState.toId) {
+              tem_info.state = 1;
+              tem_info.userName = that.currentSta.userName;
+            }
+
+            if (i.online == true) tem_info.online = true;
+            else tem_info.online = false;
+
+            tem_info.message = i.infoContent;
+            tem_info.date = i.time;
+            tem_info.image = that.circleUrl;
+
+            that.resList.push(tem_info);
+          }
+          console.log(data);
+          console.log(that.resList);
+        });
+    },
   },
 };
 </script>
@@ -303,7 +352,7 @@ computed: {
   height: 380px;
   overflow-y: auto;
 }
-.inline{
+.inline {
   display: flex;
 }
 </style>
