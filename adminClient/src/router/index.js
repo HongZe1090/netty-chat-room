@@ -81,7 +81,7 @@ export const constantRoutes = [
       {
         path: 'user-table',
         name: 'Table',
-         component: () => import('@/views/userTable/index'),
+         component: () => import('@/views/messageTable/index'),
          meta: { title: '消息管理', icon: 'el-icon-chat-dot-square' }
       }
     ]
@@ -97,7 +97,7 @@ export const constantRoutes = [
       {
         path: 'user-table',
         name: 'Table',
-         component: () => import('@/views/userTable/index'),
+         component: () => import('@/views/realuserTable/index'),
          meta: { title: '用户管理', icon: 'el-icon-user-solid' }
       }
     ]
@@ -113,7 +113,7 @@ export const constantRoutes = [
       {
         path: 'user-table',
         name: 'Table',
-         component: () => import('@/views/userTable/index'),
+         component: () => import('@/views/groupTable/index'),
          meta: { title: '群组管理', icon: 'el-icon-help' }
       }
     ]
