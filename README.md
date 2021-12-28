@@ -1,3 +1,45 @@
+# Netty高性能聊天室
+
+### 简要介绍
+高性能聊天室项目，主要由用户客户端，管理客户端，通信服务器，业务服务器构成。
+其高性能主要体现在
+- 高并发:通信端基于Netty架构，NIO多路复用与分组线程池实现多线程下的可靠性
+- 高速度:通信端与业务端解耦，由RocketMQ通信与异步解耦；将通信服务器大量耗时的在线消息储存，离线消息储存和业务端的大量日志储存通过消息队列中转，使通信端减少阻塞，提高消息响应时间，增加系统整体的可靠性。
+- 高可用:多模块开发，通信服务器不依赖于其他模块，其需要的所有信息由前端拉取业务服务器后发送。可支持多机部署(暂未实现)。
+
+### 架构图
+![avator](./related_notes/1.png)
+
+### 主要技术栈
+- 前端
+    - vue相关技术栈
+        - vue-cli
+        - vuex
+        - vue-router
+    - element-UI
+    - axios
+    - 管理客户端基于开源项目 vue-admin-templete
+- 后端
+    - maven多模块开发
+    - springboot
+    - RocketMQ
+    - Netty
+    - mybatis
+    - mysql
+
+### 运行方法
+- 前端：
+    - 更改请求地址
+    - npm install
+    - npm run serve(客户端)
+    - npm run dev(管理端)
+- 后端:
+    - 部署数据库(在relate_notes下)
+    - 部署rocketMQ
+    - 更改两者配置
+    - 运行admin-serve模块(业务服务器)和serve模块(通信服务器)
+
+### 问题记录
 - ```java
   ch.pipeline().addLast(HttpRequestHandler.INSTANCE);
   ch.pipeline().addLast(RegisterRequestHandler.INSTANCE);
