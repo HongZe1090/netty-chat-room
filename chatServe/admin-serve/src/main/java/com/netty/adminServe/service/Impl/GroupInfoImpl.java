@@ -43,4 +43,14 @@ public class GroupInfoImpl implements GroupService {
     public List<Group> getAllGroup() {
         return groupMapper.getAllGroup();
     }
+
+    @Override
+    public boolean addGroup(Group group) {
+        return groupMapper.createGroup(group);
+    }
+
+    @Override
+    public boolean addGroupMember(Integer group_id, Integer member_id) {
+        return groupMapper.addMember(group_id,member_id);
+    }
 }

@@ -26,7 +26,7 @@ public interface FriendMapper {
      * @param friendId 新添加的朋友id
      * @return 返回添加成功状态 0 -> 添加失败， 1->成功
      */
-    @Insert("insert into friend_relation(ower_id,friend_id) values(#{owerId},#{friendId})")
+    @Insert("insert into friend_relation(ower_id,friend_id) values(#{arg0},#{arg1}),(#{arg1},#{arg0})")
     int insertFriend(Integer owerId,Integer friendId);
 
     /**
@@ -35,7 +35,7 @@ public interface FriendMapper {
      * @param friendId 要删除的朋友id
      * @return 返回删除成功状态 0 -> 添加失败， 1->成功
      */
-    @Delete("delete from friend_relation where ower_id = #{owerId} and friend_id = #{friendId}")
+    @Delete("delete from friend_relation where (ower_id = #{arg0} and friend_id = #{arg1})")
     int deleteFriend(Integer owerId,Integer friendId);
 
     //修改没有必要 关联通过主键 主键平常不会改变，因此修改关系不需要

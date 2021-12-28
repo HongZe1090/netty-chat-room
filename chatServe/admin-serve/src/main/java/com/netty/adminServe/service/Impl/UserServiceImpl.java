@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUser() {
         return userMapper.getAllUser();
     }
+
+    @Override
+    public boolean addUser(User user) {
+        return userMapper.addUser(user);
+    }
 }

@@ -21,7 +21,8 @@
     </select>
 
     <select id="getMessage" resultMap="message">
-        select fromId,toId,infoContent,online,singleMessage,sendTime from Message where fromId =  #{arg0} and toId = #{arg1}
+        select fromId,toId,infoContent,online,singleMessage,sendTime from Message where (fromId = #{arg0} and toId = #{arg1}) OR (fromId =  #{arg1} and toId = #{arg0})
     </select>
+
 
 </mapper>

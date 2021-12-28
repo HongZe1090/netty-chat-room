@@ -6,4 +6,9 @@
         select * from User
     </select>
 
+    <insert id="addUser" parameterType="com.netty.common.entity.User">
+        insert into User (userId,userName,password,sex,image,admin,description)
+        values (#{userId},#{userName},#{password},#{sex},#{image},#{admin},#{description});
+    </insert>
+
 </mapper>

@@ -41,7 +41,7 @@ public class FriendController {
     @Log(title = "addFriend",businessType = BusinessType.INSERT,operatorType = OperatorType.USER)
     public RestMsg addFriend(@RequestParam Integer userId, @RequestParam Integer friendId){
         int status = friendService.addFriend(userId, friendId);
-        if(status == 0){
+        if(status == 2){
             return RestMsg.ok("添加成功");
         }else {
             return RestMsg.fail("异常添加失败，请重试");
@@ -52,7 +52,7 @@ public class FriendController {
     @Log(title = "deleteFriend",businessType = BusinessType.DELETE,operatorType = OperatorType.USER)
     public RestMsg deleteFriend(@RequestParam Integer userId, @RequestParam Integer friendId){
         int status = friendService.deleteFriend(userId, friendId);
-        if(status == 0){
+        if(status == 1){
             return RestMsg.ok("单向删除");
         }else {
             return RestMsg.fail("删除失败，请重试");

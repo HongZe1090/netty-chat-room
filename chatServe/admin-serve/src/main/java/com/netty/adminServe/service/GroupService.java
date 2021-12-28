@@ -17,6 +17,23 @@ public interface GroupService {
 
      */
     List<GroupInfo> getGroup(Integer userId);
+    /**
 
+     *@描述 获得所有的群组信息
+
+     */
     List<Group> getAllGroup();
+    /**
+
+     *@描述 添加群组信息
+
+     */
+    boolean addGroup(Group group);
+
+    /**
+
+     *@描述 添加群组成员
+
+     */
+    boolean addGroupMember(Integer group_id,Integer member_id);
 }
