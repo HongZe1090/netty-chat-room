@@ -7,7 +7,7 @@
       @open="handleOpen"
       @close="handleClose"
       background-color="#5fafff"
-      text-color="#303133"
+      text-color="rgb(81 81 81)"
       active-text-color="#1389ff"
     >
       <el-submenu index="1">
@@ -20,7 +20,9 @@
             :key="friend.userId"
             v-for="friend in friends"
             @click="beignChat(friend)"
-            >{{ friend.userName }}</el-menu-item
+            ><span style="color: rgb(81 81 81)">{{
+              friend.userName
+            }}</span></el-menu-item
           >
         </el-menu-item-group>
       </el-submenu>
@@ -35,7 +37,9 @@
             :key="gro.groupId"
             v-for="gro in groups"
             @click="beignGroupChat(gro)"
-            >{{ gro.groupName }}</el-menu-item
+            ><span style="color: rgb(81 81 81)">{{
+              gro.groupName
+            }}</span></el-menu-item
           >
         </el-menu-item-group>
       </el-submenu>
@@ -122,11 +126,13 @@ export default {
       console.log(key, keyPath);
     },
     beignChat(friend) {
+      console.log(friend);
       this.$store.dispatch("chooseAccept", {
         toId: friend.userId,
         type: 1,
         userName: friend.userName,
         image: friend.image,
+        description: friend.discription,
       });
     },
     beignGroupChat(group) {
@@ -150,5 +156,8 @@ export default {
   font-size: 15px;
   line-height: 50px;
   font-weight: 800;
+}
+.el-submenu__title i {
+  color: rgb(81 81 81);
 }
 </style>

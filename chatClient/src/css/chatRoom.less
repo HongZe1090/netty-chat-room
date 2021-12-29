@@ -1,77 +1,81 @@
 :root {
-    --black: #151515;
-    --gray100: #ddd;
-    --blue: #92D6E4;
-    --chat-tail-size: 21px;
+  --black: #151515;
+  --gray100: #ddd;
+  --blue: #92D6E4;
+  --chat-tail-size: 21px;
+}
+
+.chat {
+  display: grid;
+  grid-gap: 1rem;
+  justify-items: start;
+  padding: 0.5rem;
+}
+
+.chat-message {
+  --bubble-color: var(--gray100);
+  margin-left: 19px;
+  position: relative;
+  padding: .625rem;
+  background-color: var(--bubble-color);
+  border-radius: .625rem;
+  color: var(--bubble-color);
+  bottom: 15px;
+
+  &.me {
+    --bubble-color: var(--blue);
+    margin-right: 20px;
+
+    .chat-text {
+      max-width: 28ch;
+    }
   }
 
-  .chat {
-    display: grid;
-    grid-gap: 1rem;
-    justify-items: start;
-    padding: 0.5rem;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
   }
-  
-  .chat-message {
-    --bubble-color: var(--gray100);
-    margin-left: 19px;
-    position: relative;
-    padding: .625rem;
-    background-color: var(--bubble-color);
-    border-radius: .625rem;
-    color: var(--bubble-color);
-    
-    &.me {
-      --bubble-color: var(--blue);
-      justify-self: end;
-      
-      .chat-text {
-        max-width: 28ch;
-      }
-    }
-    
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-    }
-    
+
+  &::before {
+    height: calc(var(--chat-tail-size) * 1.2);
+    width: calc(var(--chat-tail-size) * .85);
+    background-color: #ddd;
+    border-radius: 50% 50% 20px/10px 0;
+    top: calc((100% - (var(--chat-tail-size) / 2)) - 11px);
+    right: calc((100% + (var(--chat-tail-size) / 2) * -1) + 4px);
+    left: auto;
+  }
+
+  &::after {
+    height: calc(var(--chat-tail-size) * 1.25);
+    width: var(--chat-tail-size);
+    background-color: #f7fbff;
+    border-radius: 0 0 16px/14px;
+    top: calc((100% - (var(--chat-tail-size) / 2)) - 11px);
+    right: 100%;
+    left: auto;
+  }
+
+  &.me {
     &::before {
-      height: calc(var(--chat-tail-size) * 1.2);
-      width: calc(var(--chat-tail-size) * .85);
-      background-color: #ddd;
-      border-radius: 50% 50% 20px/10px 0;
-      top: calc((100% - (var(--chat-tail-size) / 2)) - 11px);
-      right: calc((100% + (var(--chat-tail-size) / 2) * -1) + 4px);
-      left: auto;
+      border-radius: 50% 50% 0 20px/10px;
+      left: calc((100% + (var(--chat-tail-size) / 2) * -1) + 3px);
+      right: auto;
+      background-color: var(--blue);
     }
+
     &::after {
-      height: calc(var(--chat-tail-size) * 1.25);
-      width: var(--chat-tail-size);
-      background-color: #f7fbff;
-      border-radius: 0 0 16px/14px;
-      top: calc((100% - (var(--chat-tail-size) / 2)) - 11px);
-      right: 100%;
-      left: auto;
-    }
-    
-    &.me {
-      &::before {
-        border-radius: 50% 50% 0 20px/10px;
-        left: calc((100% + (var(--chat-tail-size) / 2) * -1) + 3px);
-        right: auto;
-        background-color: var(--blue);
-      }
-      &::after {
-        border-radius: 0 0 0 16px/14px;
-        left: 100%;
-        right: auto;
-      }
+      border-radius: 0 0 0 16px/14px;
+      left: 100%;
+      right: auto;
     }
   }
-  .chat-text {
-    max-width: 32ch;
-    font-size: .875rem;
-    line-height: 1;
-    color: var(--black);
-  }
+}
+
+.chat-text {
+  max-width: 32ch;
+  font-size: .875rem;
+  line-height: 1;
+  color: var(--black);
+}

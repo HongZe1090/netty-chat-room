@@ -2,7 +2,12 @@
   <div>
     <el-row>
       <el-col :span="1"><el-avatar :size="45" :src="circleUrl" /></el-col>
-      <el-col :span="1.5" class="Name">{{ currentSta.userName }}</el-col>
+      <el-col :span="1.5" class="Name"
+        ><span>{{ currentSta.userName }}</span>
+        <div style="font-size: 10px">
+          <span>噫这人谁来着:</span>{{ currentSta.description }}
+        </div>
+      </el-col>
     </el-row>
 
     <el-divider></el-divider>
@@ -10,13 +15,26 @@
     <el-row class="SecRow">
       <ul class="chat">
         <li class="inline" :key="res.id" v-for="res in resList">
-          <el-avatar :size="40" :src="circleUrl" />
-          <span class="chat-message chat-text"
-            >{{ res.userName }}:{{ res.message }}</span
-          >
-          <span v-if="res.online == false"
-            >{{ res.date }}这是一条离线消息哦</span
-          >
+          <div style="float: right" v-if="res.state == 0">
+            <span style="font-size: 10px" v-if="res.online == false"
+              >{{ res.date }}这是一条离线消息哦</span
+            >
+            <span class="chat-message me chat-text"
+              >{{ res.message }}:{{ res.userName }}</span
+            >
+
+            <el-avatar :size="40" :src="circleUrl" />
+          </div>
+
+          <div style="float: left" v-else-if="res.state == 2">
+            <el-avatar :size="40" :src="circleUrl" />
+            <span class="chat-message chat-text"
+              >{{ res.userName }}:{{ res.message }}</span
+            >
+            <span style="font-size: 10px" v-if="res.online == false"
+              >{{ res.date }}这是一条离线消息哦</span
+            >
+          </div>
         </li>
       </ul>
     </el-row>
@@ -128,6 +146,8 @@ export default {
       };
 
       this.socket.send(JSON.stringify(data));
+
+      this.inputArea = "";
     },
     getSocket() {
       let socket;
@@ -168,10 +188,10 @@ export default {
               default:
                 break;
             }
-          } else if (result.status == 404) {
+          } else if (result.status == 500) {
             // 返回的请求码不为200
             that.$message({
-              message: "发送失败 对方不在线",
+              message: "你的朋友不在家，可能跑去种土豆啦...",
               type: "warning",
             });
           }
@@ -319,8 +339,8 @@ export default {
             if (i.fromId == that.myInfo.userId) {
               tem_info.state = 0;
               tem_info.userName = that.myInfo.userName;
-            } else if (i.fromId == that.currentState.toId) {
-              tem_info.state = 1;
+            } else if (i.fromId == that.currentSta.toId) {
+              tem_info.state = 2;
               tem_info.userName = that.currentSta.userName;
             }
 
@@ -343,6 +363,10 @@ export default {
 .Name {
   font-size: 18px;
   margin-top: 16px;
+  position: relative;
+  bottom: 9px;
+  display: grid;
+  justify-items: start;
 }
 .myself {
   margin: 20px 0 10px 0;
@@ -352,6 +376,6 @@ export default {
   overflow-y: auto;
 }
 .inline {
-  display: flex;
+  width: 100%;
 }
 </style>

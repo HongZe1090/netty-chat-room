@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import "@/css/login.less"
-import * as request from "@/utils/request"
+import "@/css/login.less";
+import * as request from "@/utils/request";
 export default {
   data() {
     return {
@@ -59,37 +59,38 @@ export default {
   mounted() {},
   methods: {
     toLogin: function () {
-      let that = this
+      let that = this;
       // that.$router.push('/wechat')
       let loginParam = {
-          userName: that.userName,
-          password: that.password,
-      }
-      request.postUrlContentType("http://121.36.199.215:8081/auth/login", loginParam).then(function(data) {
-          console.log(data)
-      if(data.code == 200 ){
-              that.$notify({
-              title: '登陆成功',
-              message: '等你好久啦 Hi~ o(*￣▽￣*)ブ '+data.data.userName,
-              type: 'success'
-              })
-              // 把当前用户的信息存到vuex里面
-              that.$store.dispatch('saveUserInfo',data.data)
-              // console.log(that.$store.state.myInfo)
-              that.$router.push('/wechat')
-      }
-      if(data.code != 200 ) {
-              that.$alert("进不去进不去", data.message, {
-              confirmButtonText: '确定',
-              })
+        userName: that.userName,
+        password: that.password,
+      };
+      request
+        .postUrlContentType("http://121.36.199.215:8081/auth/login", loginParam)
+        .then(function (data) {
+          console.log(data);
+          if (data.code == 200) {
+            that.$notify({
+              title: "登陆成功",
+              message: "等你好久啦 Hi~ o(*￣▽￣*)ブ " + data.data.userName,
+              type: "success",
+            });
+            // 把当前用户的信息存到vuex里面
+            that.$store.dispatch("saveUserInfo", data.data);
+            // console.log(that.$store.state.myInfo)
+            that.$router.push("/wechat");
           }
-      })
+          if (data.code != 200) {
+            that.$notify({
+              title: "进不去进不去",
+              message: data.msg,
+              type: "warning",
+            });
+          }
+        });
     },
   },
-}
+};
 </script>
 
-<style lang="css">
-</style>
-
-                
+<style lang="css"></style>
