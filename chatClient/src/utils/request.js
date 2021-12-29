@@ -68,6 +68,7 @@ export function postUrl(url, paramsObj) {
 //请求token用到的
 export function postUrlContentType(url, paramsObj) {
     let that = this
+    console.log(paramsObj)
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
@@ -76,7 +77,7 @@ export function postUrlContentType(url, paramsObj) {
           }).then((res) => {
             resolve(res.data)
         }).catch((e) => {
-            Notification.error('服务器跑出去摘土豆啦...')
+            Notification.error('失败啦！...')
         })
     })
 }

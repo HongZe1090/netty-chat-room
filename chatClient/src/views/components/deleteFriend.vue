@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     title="删除好朋友"
-    :visible.sync="Visible2"
+    :visible.sync="Visible"
     width="35%"
     :before-close="closeForm"
   >
@@ -42,7 +42,7 @@ export default {
     };
   },
 
-  props: ["Visible2"],
+  props: ["Visible"],
   computed: {
     ...mapState({
       // 当前用户信息

@@ -24,7 +24,8 @@
             ><i class="el-icon-edit"></i>添加好友</el-dropdown-item
           >
           <el-dropdown-item v-on:click.native="Visible1 = true"
-            ><i class="el-icon-delete"></i>删除好友</el-dropdown-item
+            ><i class="el-icon-delete"></i>删除好友
+            {{ Visible1 }}</el-dropdown-item
           >
           <el-dropdown-item v-on:click.native="Visible2 = true"
             ><i class="el-icon-check"></i>添加群组{{

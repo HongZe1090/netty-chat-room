@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     title="添加群组"
-    :visible.sync="Visible2"
+    :visible.sync="Visible"
     width="35%"
     :before-close="closeForm"
   >
@@ -12,12 +12,24 @@
       size="medium"
       style="margin-right: 40px"
     >
-      <el-form-item label="好友ID">
-        <el-input v-model="form.ID" :value="form.ID" />
+      <el-form-item label="群组ID">
+        <el-input v-model="form.groupId" :value="form.groupId" />
       </el-form-item>
 
-      <el-form-item label="好友名">
-        <el-input v-model="form.nickname" />
+      <el-form-item label="群组名">
+        <el-input v-model="form.groupName" />
+      </el-form-item>
+
+      <el-form-item label="群组头像">
+        <el-input v-model="form.image" />
+      </el-form-item>
+
+      <el-form-item label="群组描述">
+        <el-input v-model="form.description" />
+      </el-form-item>
+
+      <el-form-item label="创建人ID">
+        <el-input v-model="form.admin" disabled="true" />
       </el-form-item>
 
       <el-form-item>
@@ -36,13 +48,16 @@ export default {
   data() {
     return {
       form: {
-        ID: "",
-        nickname: "",
+        groupId: "",
+        groupName: "",
+        image: "",
+        description: "",
+        admin: "",
       },
     };
   },
 
-  props: ["Visible2"],
+  props: ["Visible"],
   computed: {
     ...mapState({
       // 当前用户信息
@@ -56,17 +71,18 @@ export default {
     onAddSub() {
       let that = this;
 
+      that.form.admin = that.myInfo.userId;
+
       request
-        .getJSON("http://121.36.199.215:8081/userFriend/addFriend", {
-          userId: this.myInfo.userId,
-          friendId: this.form.ID,
+        .postUrlContentType("http://121.36.199.215:8081/group/addGroup", {
+          group: that.form,
         })
         .then(function (data) {
           console.log(data);
-          if (data.data.code == 200) {
+          if (data.code == 200) {
             that.$notify({
               title: "添加成功",
-              message: "多了一个好朋友啦...",
+              message: "群组创建成功啦！...",
               type: "success",
             });
           } else {
