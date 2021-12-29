@@ -20,7 +20,9 @@
             :key="friend.userId"
             v-for="friend in friends"
             @click="beignChat(friend)"
-            ><span style="color: rgb(81 81 81)">{{
+          >
+            <el-avatar class="pic" :size="32" :src="friend.image" />
+            <span style="color: rgb(81 81 81)">{{
               friend.userName
             }}</span></el-menu-item
           >
@@ -37,9 +39,11 @@
             :key="gro.groupId"
             v-for="gro in groups"
             @click="beignGroupChat(gro)"
-            ><span style="color: rgb(81 81 81)">{{
-              gro.groupName
-            }}</span></el-menu-item
+          >
+            <el-avatar class="pic" :size="32" :src="gro.image" /><span
+              style="color: rgb(81 81 81)"
+              >{{ gro.groupName }}</span
+            ></el-menu-item
           >
         </el-menu-item-group>
       </el-submenu>
@@ -87,6 +91,8 @@ export default {
       .then(function (result) {
         for (let i of result.data) {
           that.friend = i;
+          that.friend.image =
+            "https://img1.baidu.com/it/u=3714905383,1765045921&fm=26&fmt=auto";
           that.friends.push(that.friend);
         }
       });
@@ -102,7 +108,7 @@ export default {
           group.description = i.description;
           group.groupName = i.groupName;
           group.image =
-            "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png";
+            "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202004%2F16%2F20200416111007_dymku.thumb.1000_0.png&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1643353703&t=51b57434d32bd8e9fc4b261d5a02d52d";
           group.members = that.getString(i.memberId);
           group.admin = i.admin;
 
@@ -159,5 +165,10 @@ export default {
 }
 .el-submenu__title i {
   color: rgb(81 81 81);
+}
+.pic {
+  position: relative;
+  bottom: 1.5px;
+  margin-right: 8px;
 }
 </style>

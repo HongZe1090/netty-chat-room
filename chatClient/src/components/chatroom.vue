@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="1"><el-avatar :size="45" :src="circleUrl" /></el-col>
+      <el-col :span="1"
+        ><el-avatar :size="45" :src="currentSta.image" />{{
+      }}</el-col>
       <el-col :span="1.5" class="Name"
         ><span>{{ currentSta.userName }}</span>
         <div style="font-size: 10px">
@@ -23,11 +25,11 @@
               >{{ res.message }}:{{ res.userName }}</span
             >
 
-            <el-avatar :size="40" :src="circleUrl" />
+            <el-avatar :size="40" :src="myCircleUrl" />
           </div>
 
           <div style="float: left" v-else-if="res.state == 2">
-            <el-avatar :size="40" :src="circleUrl" />
+            <el-avatar :size="40" :src="currentSta.image" />
             <span class="chat-message chat-text"
               >{{ res.userName }}:{{ res.message }}</span
             >
@@ -55,7 +57,7 @@
         <el-row>
           <el-col>
             <el-row>
-              <el-avatar class="myself" :size="50" :src="circleUrl"
+              <el-avatar class="myself" :size="50" :src="myCircleUrl"
             /></el-row>
             <el-row>{{ myInfo.userName }} </el-row>
           </el-col>
@@ -95,8 +97,8 @@ export default {
       newGroupId: "",
       curreGroup: {},
       resList: [],
-      circleUrl:
-        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+      myCircleUrl:
+        "https://img1.baidu.com/it/u=313471238,3167859783&fm=15&fmt=auto",
     };
   },
   computed: {
@@ -110,6 +112,7 @@ export default {
   watch: {
     currentSta: {
       handler(newVal, objVal) {
+        console.log(newVal);
         this.creatGroup();
         this.pullHistory();
       },

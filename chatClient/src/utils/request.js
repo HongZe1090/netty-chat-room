@@ -19,7 +19,7 @@ export function getJSON(url, paramsObj) {
         ).then((res) => {
             resolve(res)
         }).catch((e) => {
-            reject(e)
+            Notification.error('没有成功！')
         })
     })
 }
@@ -41,10 +41,8 @@ export function postJSON(url, paramsObj) {
         ).then((res) => {
             resolve(res.data)
         }).catch((e) => {
-            this.$message({
-              message: "找不到好朋友,失联啦失联啦...",
-              type: "warning",
-            })
+            Notification.error('找不到好朋友,失联啦失联啦...')
+            
         })
     })
 }
