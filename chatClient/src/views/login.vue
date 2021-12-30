@@ -28,22 +28,33 @@
       </div>
 
       <button class="cta" @click="toLogin()">
-        <span>点击登陆</span>
+        <span>登陆</span>
+        <svg width="15px" height="10px" viewBox="0 0 13 10">
+          <path d="M1,5 L11,5"></path>
+          <polyline points="8 1 12 5 8 9"></polyline>
+        </svg>
+      </button>
+
+      <button class="cta" style="margin-left: 10px" @click="toRegister()">
+        <span>注册</span>
         <svg width="15px" height="10px" viewBox="0 0 13 10">
           <path d="M1,5 L11,5"></path>
           <polyline points="8 1 12 5 8 9"></polyline>
         </svg>
       </button>
     </form>
+    <Form :Visible="Visible" v-on:closeForm="Visible = false"></Form>
   </div>
 </template>
 
 <script>
 import "@/css/login.less";
+import Form from "../views/components/register.vue";
 import * as request from "@/utils/request";
 export default {
   data() {
     return {
+      Visible: false,
       userName: "",
       password: "",
       myInfo: {
@@ -55,9 +66,15 @@ export default {
       },
     };
   },
+  components: {
+    Form,
+  },
   created() {},
   mounted() {},
   methods: {
+    toRegister: function () {
+      this.Visible = true;
+    },
     toLogin: function () {
       let that = this;
       // that.$router.push('/wechat')
