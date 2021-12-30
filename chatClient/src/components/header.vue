@@ -24,15 +24,12 @@
             ><i class="el-icon-edit"></i>添加好友</el-dropdown-item
           >
           <el-dropdown-item v-on:click.native="Visible1 = true"
-            ><i class="el-icon-delete"></i>删除好友
-            {{ Visible1 }}</el-dropdown-item
+            ><i class="el-icon-delete"></i>删除好友</el-dropdown-item
           >
           <el-dropdown-item v-on:click.native="Visible2 = true"
-            ><i class="el-icon-check"></i>添加群组{{
-              Visible2
-            }}</el-dropdown-item
+            ><i class="el-icon-check"></i>添加群组</el-dropdown-item
           >
-          <el-dropdown-item
+          <el-dropdown-item v-on:click.native="Visible3 = true"
             ><i class="el-icon-user"></i>添加成员</el-dropdown-item
           >
           <el-dropdown-item divided>这里是已经完成的相关操作</el-dropdown-item>
@@ -43,6 +40,7 @@
     <Form :Visible="Visible" v-on:closeForm="Visible = false"></Form>
     <Form1 :Visible="Visible1" v-on:closeForm="Visible1 = false"></Form1>
     <Form2 :Visible="Visible2" v-on:closeForm="Visible2 = false"></Form2>
+    <Form3 :Visible="Visible3" v-on:closeForm="Visible3 = false"></Form3>
   </el-row>
 </template>
 
@@ -52,12 +50,14 @@ import { mapState } from "vuex";
 import Form from "../views/components/addFriend.vue";
 import Form1 from "../views/components/deleteFriend.vue";
 import Form2 from "../views/components/addGroup.vue";
+import Form3 from "../views/components/addGroupMember.vue";
 export default {
   name: "header",
   components: {
     Form,
     Form1,
     Form2,
+    Form3,
   },
   data() {
     return {

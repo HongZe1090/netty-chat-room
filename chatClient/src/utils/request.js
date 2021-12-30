@@ -29,20 +29,21 @@ export function getJSON(url, paramsObj) {
  * @param {*} paramsObj 
  */
 export function postJSON(url, paramsObj) {
+    console.log(paramsObj)
     return new Promise((resolve, reject) => {
         let that = this
-        axios.post(url, 
-            paramsObj,
-            // {
-            //     headers: {
-            //         "Authorization":'bearer '+ token  //token换成从缓存获取
-            //      }
+        axios({
+            method: 'post',
+            url: url,
+            // 参数解析
+            params: paramsObj,
+            // headers: {
+            //     "Authorization":'bearer '+ token  //token换成从缓存获取
             // }
-        ).then((res) => {
+          }).then((res) => {
             resolve(res.data)
         }).catch((e) => {
-            Notification.error('找不到好朋友,失联啦失联啦...')
-            
+            Notification.error('添加失败啦！')  
         })
     })
 }

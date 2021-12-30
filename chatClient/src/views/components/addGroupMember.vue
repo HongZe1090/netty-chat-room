@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="添加群组"
+    title="添加群组成员"
     :visible.sync="Visible"
     width="35%"
     :before-close="closeForm"
@@ -13,23 +13,11 @@
       style="margin-right: 40px"
     >
       <el-form-item label="群组ID">
-        <el-input v-model="form.groupId" :value="form.groupId" />
+        <el-input v-model="form.group" :value="form.group" />
       </el-form-item>
 
-      <el-form-item label="群组名">
-        <el-input v-model="form.groupName" />
-      </el-form-item>
-
-      <el-form-item label="群组头像">
-        <el-input v-model="form.image" />
-      </el-form-item>
-
-      <el-form-item label="群组描述">
-        <el-input v-model="form.description" />
-      </el-form-item>
-
-      <el-form-item label="创建人ID">
-        <el-input v-model="form.admin" disabled="true" />
+      <el-form-item label="好友id">
+        <el-input v-model="form.friend" />
       </el-form-item>
 
       <el-form-item>
@@ -44,15 +32,12 @@
 import { mapState } from "vuex";
 import * as request from "@/utils/request";
 export default {
-  name: "Form2",
+  name: "Form3",
   data() {
     return {
       form: {
-        groupId: "",
-        groupName: "",
-        image: "",
-        description: "",
-        admin: "",
+        group: "",
+        friend: "",
       },
     };
   },
@@ -71,19 +56,17 @@ export default {
     onAddSub() {
       let that = this;
 
-      that.form.admin = that.myInfo.userId;
-
       request
-        .postUrlContentType(
-          "http://121.36.199.215:8081/group/addGroup",
-          that.form
-        )
+        .postJSON("http://121.36.199.215:8081/group/addGroupMember", {
+          group_id: that.form.group,
+          member_id: that.form.friend,
+        })
         .then(function (data) {
           console.log(data);
           if (data.code == 200) {
             that.$notify({
               title: "添加成功",
-              message: "群组创建成功啦！...",
+              message: "群组中多了一个好朋友啦...",
               type: "success",
             });
           } else {

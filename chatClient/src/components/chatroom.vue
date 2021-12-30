@@ -28,7 +28,10 @@
             <el-avatar :size="40" :src="myCircleUrl" />
           </div>
 
-          <div style="float: left" v-else-if="res.state == 2">
+          <div
+            style="float: left"
+            v-else-if="res.state == 2 || res.state == 10"
+          >
             <el-avatar :size="40" :src="currentSta.image" />
             <span class="chat-message chat-text"
               >{{ res.userName }}:{{ res.message }}</span
@@ -288,6 +291,11 @@ export default {
       response.userName = info.fromUser.userName;
       response.date = info.date;
 
+      this.$message({
+        message: "此时群聊在线的有" + info.nameList,
+        type: "success",
+      });
+
       this.resList.push(response);
     },
     handleCreateChatResponse(result) {
@@ -318,10 +326,16 @@ export default {
     pullHistory() {
       let that = this;
       that.resList.length = 0;
+
+      let id;
+
+      if (that.currentSta.userName == "你好呀") id = 85;
+      else id = that.currentSta.toId;
+
       request
         .getJSON("http://121.36.199.215:8081/message/getInfo", {
           from: that.myInfo.userId,
-          toId: that.currentSta.toId,
+          toId: id,
         })
         .then((result) => {
           let data = result.data.data;

@@ -33,8 +33,4 @@ public class AuthController {
         return authService.login(authBody);
     }
 
-    //@GetMapping("/logout")
-    //@Log(title = "auth",businessType = BusinessType.LOGINOUT,operatorType = OperatorType.USER)
-    //public
-
 }
